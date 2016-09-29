@@ -1,0 +1,18 @@
+<html>
+<head>
+  <title></title>
+  <% if (typeof files !== 'undefined') { %>
+  <% files.forEach(function (file) { %>
+  <link rel="preload" href="<%- file %>" as="script">
+  <% }); %>
+  <% } %>
+</head>
+<body>
+<div id="main"><% if (typeof markup !== 'undefined') { %><%- markup %><% } %></div>
+<script>
+  window.__INITIAL_STATE__ = <% if (typeof initialState !== 'undefined' && initialState) { %><%- JSON.stringify(initialState) %><% } else { %>null<% } %>;
+  window.__INITIAL_MODULES__ = <% if (typeof modules !== 'undefined' && modules) { %><%- JSON.stringify(modules) %><% } else { %>null<% } %>;
+</script>
+<script src="app.js"></script>
+</body>
+</html>

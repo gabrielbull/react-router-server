@@ -1,0 +1,12 @@
+/example
+/node_modules
+/test
+/.idea
+/.babelrc
+/.codeclimate.yml
+/.editorconfig
+/.eslintrc
+/.npmignore
+/.travis.yml
+/CONTRIBUTING.md
+/npm-debug.log
