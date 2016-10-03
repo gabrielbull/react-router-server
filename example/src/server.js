@@ -4,12 +4,12 @@ import { renderToString } from 'react-router-server';
 import { ServerRouter, createServerRenderContext } from 'react-router'
 import express from 'express';
 import path from 'path';
-import stats from '../example/stats.json';
+import stats from '../build/stats.json';
 
 const app = express();
 const context = createServerRenderContext();
 
-app.use(express.static(path.join(__dirname, '..', '..', 'build')));
+app.use(express.static(path.join(__dirname, '..', 'build')));
 
 app.get('*', function (req, res) {
   const server = (
@@ -32,7 +32,7 @@ app.get('*', function (req, res) {
         const initialState = context.getInitialState();
         const modules = context.getModules(stats);
         res.render(
-          path.join(__dirname, '..', 'example', 'index.ejs'),
+          path.join(__dirname, '..', 'index.ejs'),
           {
             markup, initialState,
             files: [].concat.apply([], modules.map(module => module.files )),

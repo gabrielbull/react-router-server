@@ -1,4 +1,4 @@
-# ![React Router Server](https://rawgit.com/gabrielbull/react-router-server/master/react-router-server2.svg "React Router Server")
+# ![React Router Server](https://rawgit.com/gabrielbull/react-router-server/master/react-router-server.svg "React Router Server")
 
 [![Build Status](https://travis-ci.org/gabrielbull/react-router-server.svg?branch=master)](https://travis-ci.org/gabrielbull/react-router-server)
 [![Code Climate](https://codeclimate.com/github/gabrielbull/react-router-server/badges/gpa.svg)](https://codeclimate.com/github/gabrielbull/react-router-server)
@@ -60,7 +60,7 @@ import { Match, importModule } from 'react-router-server';
 <Match
   exactly
   pattern="/test"
-  render={matchProps => importModule('/src/module', System.import("./module"))
+  render={matchProps => importModule('moduleName', './module', System.import("./module"))
     .then(module => {
       const Component = module.default;
       return <Component/>;
@@ -193,11 +193,13 @@ is used when you are finished fetching props.
 <a name="import-module"></a>
 ### importModule
 
-`importModule(name, module)`
+`importModule(name, path, systemImport)`
 
 __name__: Unique name of your module.
 
-__module__: A `System.import("./path/to/your/module")` call.
+__path__: Path to your module relative to the current file. Same as the path in the systemImport param.
+
+__systemImport__: A `System.import("./path/to/your/module")` call.
 
 <a name="match"></a>
 ### Match 

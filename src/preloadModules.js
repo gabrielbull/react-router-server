@@ -2,6 +2,10 @@ import { registerModule } from './importModule';
 
 export default (modules) => {
   return new Promise((resolve) => {
+    if (typeof modules !== 'object' || Object.prototype.toString.call(modules) !== '[object Array]' || !modules.length) {
+      resolve();
+    }
+
     let idx = 0;
     modules.forEach(module => {
       idx++;

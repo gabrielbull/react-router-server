@@ -2,18 +2,22 @@ import { renderToString } from 'react-dom/server';
 import extractModules from './extractModules';
 
 class AsyncRenderer {
-  modules = [];
+  modules = {};
+
+  asyncRenderIdx = 0;
+  asyncMountIdx = 0;
+
+  awaitForAsyncMount = 0;
+  awaitForAsyncRender = 0;
+
+  asyncRenderResults = {};
+  asyncMountResults = {};
+
+  renderPass = false
 
   constructor(element, context) {
     this.element = element;
     this.context = context;
-    this.renderPass = false;
-    this.asyncRenderIdx = 0;
-    this.asyncMountIdx = 0;
-    this.awaitForAsyncMount = 0;
-    this.awaitForAsyncRender = 0;
-    this.asyncRenderResults = {};
-    this.asyncMountResults = {};
     this.context.getInitialState = this.getInitialState;
     this.context.getModules = this.getModules;
   }
@@ -72,8 +76,8 @@ class AsyncRenderer {
     return this.asyncMountResults[idx] !== undefined ? this.asyncMountResults[idx] : null;
   };
 
-  addModule(module) {
-    this.modules.push(module);
+  addModule(name, path) {
+    this.modules[name] = path;
   }
 
   getModules = (stats) => {

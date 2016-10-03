@@ -11,7 +11,7 @@ class App extends Component {
         <Match
           exactly
           pattern="/test"
-          render={matchProps => importModule('/src/module', System.import("./module"))
+          render={matchProps => importModule('module', './module', System.import('./module'))
             .then(module => {
               const Component = module.default;
               return <Component/>;

@@ -6,11 +6,29 @@ export default (stats, modules) => {
     (!stats.entrypoints || typeof stats.entrypoints !== 'object')
   ) throw new Error('Stats is malformed.');
 
-  const statModules = stats.modules.filter(module => modules.indexOf(module.name.replace(/\.js$/, '')) !== -1);
-  modules = statModules.map(module => {
-    module.key = modules[modules.indexOf(module.name.replace(/\.js$/, ''))];
-    return module;
+  const statModules = [];
+  stats.modules.forEach(module => {
+    let filter = false;
+    let key;
+    for (let prop in modules) {
+      if (modules.hasOwnProperty(prop)) {
+        if (module.identifier.indexOf(modules[prop]) === (module.identifier.length - modules[prop].length)) {
+          filter = true;
+          key = prop;
+          break;
+        }
+      }
+    }
+    if (filter) {
+      statModules.push({
+        ...module,
+        key
+      });
+    }
+    return false;
   });
+
+  modules = statModules;
 
   let chunks = [];
   modules.forEach(module => {
