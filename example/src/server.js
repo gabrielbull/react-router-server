@@ -35,7 +35,7 @@ app.get('*', function (req, res) {
           path.join(__dirname, '..', 'index.ejs'),
           {
             markup, initialState,
-            files: [].concat.apply([], modules.map(module => module.files )),
+            files: [].concat.apply([], modules.map(module => module.files )).filter(file => !file.match(/\.map$/)),
             modules: [].concat.apply([], modules.filter(module => module.key).map(module => ({
               key: module.key,
               chunk: module.id,

@@ -6,12 +6,23 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Link to="/">Home</Link><span>&nbsp;</span>
+        <Link to="/">Home</Link>
+        <span>&nbsp;</span>
         <Link to="/test">Click here</Link>
         <Match
           exactly
+          pattern="/"
+          render={matchProps => importModule('home', './home', System.import('./home'))
+            .then(module => {
+              const Component = module.default;
+              return <Component/>;
+            })
+          }
+        />
+        <Match
+          exactly
           pattern="/test"
-          render={matchProps => importModule('module', './module', System.import('./module'))
+          render={matchProps => importModule('test', './test', System.import('./test'))
             .then(module => {
               const Component = module.default;
               return <Component/>;

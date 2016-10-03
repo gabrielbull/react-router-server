@@ -2,7 +2,11 @@ import React, { Component, PropTypes } from 'react';
 
 class ServerStateProvider extends Component {
   static propTypes = {
-    state: PropTypes.object
+    state: PropTypes.object,
+    children: PropTypes.oneOfType([PropTypes.element, PropTypes.func, PropTypes.node]),
+  };
+
+  static defaultProps = {
   };
 
   static childContextTypes = {
