@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import { fetchProps } from 'react-router-server';
 
 class Test extends Component {
   render() {

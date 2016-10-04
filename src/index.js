@@ -1,4 +1,5 @@
-export { default as fetchProps } from './fetchProps';
+export { default as fetchProps } from './fetchState'; // deprecated
+export { default as fetchState } from './fetchState';
 export { default as importModule } from './importModule';
 export { default as Match } from './match';
 export { default as preloadModules } from './preloadModules';

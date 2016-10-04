@@ -23,7 +23,7 @@ the server side and resolves all issues with mounting on the client side.
     * [Server Side](#server-side)    
     * [Client Side](#client-side)    
 4. [API](#api)
-    * [fetchProps](#fetch-props)
+    * [fetchState](#fetch-state)
     * [importModule](#import-module)
     * [Match](#match)
     * [preloadModules](#preload-modules)
@@ -73,10 +73,10 @@ import { Match, importModule } from 'react-router-server';
 ### Loading props on the server side
 
 To load props for your components to render on the server side, 
-use the `fetchProps` decorator.
+use the `fetchState` decorator.
 
 ```jsx
-@fetchProps(
+@fetchState(
   state => ({
     isLoaded: state.user ? true : false,
     user: state.user
@@ -178,10 +178,10 @@ preloadModules(__INITIAL_MODULES__).then(() => {
 <a name="api"></a>
 ## API
 
-<a name="fetch-props"></a>
-### fetchProps
+<a name="fetch-state"></a>
+### fetchState
 
-`fetchProps(mapStateToProps, mapActionsToProps)`
+`fetchState(mapStateToProps, mapActionsToProps)`
 
 __mapStateToProps(state)__: function to map the state provided by the done action
 to props in your component;

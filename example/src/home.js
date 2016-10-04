@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import { fetchProps } from 'react-router-server';
+import { fetchState } from 'react-router-server';
 
-@fetchProps(
+@fetchState(
   state => ({
     isLoaded: state.message,
     message: state.message

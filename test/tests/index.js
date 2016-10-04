@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import {
-  fetchProps,
+  fetchState,
   importModule,
   Match,
   preloadModules,
@@ -10,7 +10,7 @@ import {
 
 describe('index', () => {
   it('should be exported', () => {
-    expect(fetchProps).to.exist;
+    expect(fetchState).to.exist;
     expect(importModule).to.exist;
     expect(Match).to.exist;
     expect(preloadModules).to.exist;

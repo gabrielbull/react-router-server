@@ -5,16 +5,16 @@ export default (mapStateToProps, mapActionsToProps) => WrappedComponent =>{
     static contextTypes = {
       serverRouter: PropTypes.object,
       serverState: PropTypes.object,
-      reactRouterServerFetchPropsParentId: PropTypes.string
+      reactRouterServerFetchStateParentId: PropTypes.string
     };
 
     static childContextTypes = {
-      reactRouterServerFetchPropsParentId: PropTypes.string
+      reactRouterServerFetchStateParentId: PropTypes.string
     };
 
     getChildContext() {
       return {
-        reactRouterServerFetchPropsParentId: this.idx
+        reactRouterServerFetchStateParentId: this.idx
       };
     }
 
@@ -30,7 +30,7 @@ export default (mapStateToProps, mapActionsToProps) => WrappedComponent =>{
 
     componentWillMount() {
       if (this.asyncRenderer) {
-        this.idx = this.asyncRenderer.getAsyncMountIdx(this.context.reactRouterServerFetchPropsParentId);
+        this.idx = this.asyncRenderer.getAsyncMountIdx(this.context.reactRouterServerFetchStateParentId);
         if (!this.asyncRenderer.hasAsyncMountResult(this.idx)) {
           this.asyncRenderer.awaitForAsyncMount++;
         } else {
