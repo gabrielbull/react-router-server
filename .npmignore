@@ -10,3 +10,5 @@
 /.travis.yml
 /CONTRIBUTING.md
 /npm-debug.log
+/src
+/react-router-server.svg

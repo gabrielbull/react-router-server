@@ -28,6 +28,8 @@ class AsyncRenderer {
     const markup = renderToString(this.element);
     if (!this.awaitForAsyncMount && !this.awaitForAsyncRender) {
       this.resolve(markup);
+    } else if (!this.awaitForAsyncRender) {
+      this.renderPass = true;
     }
   }
 

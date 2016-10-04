@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.1.3 (October 4th, 2016)
+
+- Fixed issue with render not resolving
+
 ## 0.1.2 (October 3rd, 2016)
 
 - Added unit tests
