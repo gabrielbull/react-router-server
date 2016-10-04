@@ -14,7 +14,7 @@ class Home extends Component {
       // Async data loading
       setTimeout(() => {
         this.props.done({ message: 'I am ready to be displayed' });
-      }, 5);
+      }, 50);
     }
   }
 

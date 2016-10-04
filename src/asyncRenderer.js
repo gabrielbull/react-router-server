@@ -6,11 +6,13 @@ class AsyncRenderer {
 
   asyncRenderIdx = 0;
   asyncMountIdx = 0;
+  asyncMountChildrenIdx = {};
 
   awaitForAsyncMount = 0;
   awaitForAsyncRender = 0;
 
   asyncRenderResults = {};
+  asyncMountHasResults = [];
   asyncMountResults = {};
 
   renderPass = false
@@ -25,6 +27,7 @@ class AsyncRenderer {
   render(resolve, reject) {
     this.resolve = resolve;
     this.asyncMountIdx = 0;
+    this.asyncMountChildrenIdx = {};
     const markup = renderToString(this.element);
     if (!this.awaitForAsyncMount && !this.awaitForAsyncRender) {
       this.resolve(markup);
@@ -34,9 +37,10 @@ class AsyncRenderer {
   }
 
   handleModuleLoaded = () => {
-    if (!this.awaitForAsyncRender && !this.renderPass) {
+    if (this.awaitForAsyncRender <= 0 && !this.renderPass) {
       this.renderPass = true;
       this.asyncMountIdx = 0;
+      this.asyncMountChildrenIdx = {};
       this.asyncRenderIdx = 0;
       renderToString(this.element);
       this.handleAsyncComponentMounted();
@@ -44,11 +48,12 @@ class AsyncRenderer {
   };
 
   handleAsyncComponentMounted = () => {
-    if (!this.awaitForAsyncMount && !this.awaitForAsyncRender && this.renderPass) {
+    if (this.awaitForAsyncMount <= 0 && this.awaitForAsyncRender <= 0 && this.renderPass) {
       this.asyncMountIdx = 0;
+      this.asyncMountChildrenIdx = {};
       this.asyncRenderIdx = 0;
       const markup = renderToString(this.element);
-      if (!this.awaitForAsyncMount) {
+      if (this.awaitForAsyncMount <= 0) {
         this.resolve(markup);
       }
     }
@@ -66,16 +71,27 @@ class AsyncRenderer {
     return this.asyncRenderResults[idx] !== undefined ? this.asyncRenderResults[idx] : null;
   };
 
-  getAsyncMountIdx = () => {
-    return this.asyncMountIdx++;
+  getAsyncMountIdx = (parentIndex) => {
+    if (typeof parentIndex !== 'undefined' && parentIndex !== undefined && parentIndex !== null) {
+      if (!this.asyncMountChildrenIdx[parentIndex]) this.asyncMountChildrenIdx[parentIndex] = 1;
+      else this.asyncMountChildrenIdx[parentIndex] = this.asyncMountChildrenIdx[parentIndex] + 1;
+      return parentIndex + '.' + this.asyncMountChildrenIdx[parentIndex];
+    }
+    this.asyncMountIdx = this.asyncMountIdx + 1;
+    return this.asyncMountIdx + '';
   };
 
   storeAsyncMountResult = (idx, data) => {
     this.asyncMountResults[idx] = data;
+    this.asyncMountHasResults.push(idx);
   };
 
   getAsyncMountResult = idx => {
-    return this.asyncMountResults[idx] !== undefined ? this.asyncMountResults[idx] : null;
+    return this.asyncMountResults[idx];
+  };
+
+  hasAsyncMountResult = idx => {
+    return this.asyncMountHasResults.indexOf(idx) !== -1;
   };
 
   addModule(name, path) {

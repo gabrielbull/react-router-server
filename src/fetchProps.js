@@ -4,8 +4,19 @@ export default (mapStateToProps, mapActionsToProps) => WrappedComponent =>{
   return class extends Component {
     static contextTypes = {
       serverRouter: PropTypes.object,
-      serverState: PropTypes.object
+      serverState: PropTypes.object,
+      reactRouterServerFetchPropsParentId: PropTypes.string
     };
+
+    static childContextTypes = {
+      reactRouterServerFetchPropsParentId: PropTypes.string
+    };
+
+    getChildContext() {
+      return {
+        reactRouterServerFetchPropsParentId: this.idx
+      };
+    }
 
     constructor() {
       super();
@@ -19,14 +30,15 @@ export default (mapStateToProps, mapActionsToProps) => WrappedComponent =>{
 
     componentWillMount() {
       if (this.asyncRenderer) {
-        this.idx = this.asyncRenderer.getAsyncMountIdx();
-        if (!this.asyncRenderer.getAsyncMountResult(this.idx)) {
+        this.idx = this.asyncRenderer.getAsyncMountIdx(this.context.reactRouterServerFetchPropsParentId);
+        if (!this.asyncRenderer.hasAsyncMountResult(this.idx)) {
           this.asyncRenderer.awaitForAsyncMount++;
         } else {
           this.setState({ ...this.asyncRenderer.getAsyncMountResult(this.idx) });
         }
       } else if (this.context.serverState) {
-        const state = this.context.serverState.getState();
+        this.idx = this.context.serverState.getAsyncMountIdx(this.context.reactRouterServerFetchStateParentId);
+        const state = this.context.serverState.getState(this.idx);
         if (state) {
           this.setState({ ...state });
         }
@@ -39,9 +51,11 @@ export default (mapStateToProps, mapActionsToProps) => WrappedComponent =>{
 
     handleDone = data => {
       if (this.asyncRenderer) {
-        this.asyncRenderer.storeAsyncMountResult(this.idx, data);
-        this.asyncRenderer.awaitForAsyncMount--;
-        this.asyncRenderer.handleAsyncComponentMounted();
+        if (!this.asyncRenderer.hasAsyncMountResult(this.idx)) {
+          this.asyncRenderer.storeAsyncMountResult(this.idx, data);
+          this.asyncRenderer.awaitForAsyncMount--;
+          this.asyncRenderer.handleAsyncComponentMounted();
+        }
       } else {
         this.setState({ ...data });
       }

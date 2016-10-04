@@ -13,18 +13,19 @@ class ServerStateProvider extends Component {
     serverState: PropTypes.object
   };
 
-  idx = 0;
+  asyncMountIdx = 0;
+  asyncMountChildrenIdx = {};
 
   getChildContext() {
     return {
       serverState: {
-        getState: this.getState
+        getState: this.getState,
+        getAsyncMountIdx: this.getAsyncMountIdx
       }
     };
   }
 
-  getState = () => {
-    const idx = this.getIdx();
+  getState = (idx) => {
     if (this.props.state && this.props.state[idx]) {
       const state = this.props.state[idx];
       delete this.props.state[idx];
@@ -33,8 +34,14 @@ class ServerStateProvider extends Component {
     return {};
   };
 
-  getIdx = () => {
-    return this.idx++;
+  getAsyncMountIdx = (parentIndex) => {
+    if (typeof parentIndex !== 'undefined' && parentIndex !== undefined && parentIndex !== null) {
+      if (!this.asyncMountChildrenIdx[parentIndex]) this.asyncMountChildrenIdx[parentIndex] = 1;
+      else this.asyncMountChildrenIdx[parentIndex] = this.asyncMountChildrenIdx[parentIndex] + 1;
+      return parentIndex + '.' + this.asyncMountChildrenIdx[parentIndex];
+    }
+    this.asyncMountIdx = this.asyncMountIdx + 1;
+    return this.asyncMountIdx + '';
   };
 
   render() {

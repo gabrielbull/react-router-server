@@ -23,8 +23,8 @@
     "build": "babel ./src --out-dir ./build",
     "build-publish": "npm run build && npm publish",
     "watch": "babel-node -- node_modules/.bin/webpack --watch --config ./example/webpack.config.js",
-    "prestart": "npm run build",
-    "start": "nodemon --exec node_modules/.bin/babel-node --plugins system-import-transformer -- example/src/server.js",
+    "prestart": "babel-node -- node_modules/.bin/webpack --config ./example/webpack.config.js",
+    "start": "babel-node --plugins system-import-transformer -- example/src/server.js",
     "test": "mocha test"
   },
   "peerDependencies": {
@@ -49,7 +49,6 @@
     "eslint-plugin-react": "^6.3.0",
     "express": "^4.14.0",
     "mocha": "^3.1.0",
-    "nodemon": "^1.10.2",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-router": "^4.0.0-alpha.3",
