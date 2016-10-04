@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.1.4 (October 4th, 2016)
+
+- Renamed fetchProps to fetchState
+- Fixed bug with calling done when re-rendering
+
 ## 0.1.3 (October 4th, 2016)
 
 - Fixed issue with render not resolving
