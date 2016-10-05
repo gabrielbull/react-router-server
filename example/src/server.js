@@ -29,21 +29,12 @@ app.get('*', function (req, res) {
       } else if (result.missed) {
         // 404
       } else {
-        const initialState = context.getInitialState();
-        const modules = context.getModules(stats);
         res.render(
           path.join(__dirname, '..', 'index.ejs'),
           {
-            markup, initialState,
-            files: [].concat.apply([], modules.map(module => module.files )).filter(file => !file.match(/\.map$/)),
-            modules: [].concat.apply([], modules.filter(module => module.key).map(module => ({
-              key: module.key,
-              chunk: module.id,
-              module: module.moduleId
-            })))
-          },
-          (err, html) => {
-            res.send(html);
+            markup,
+            initialState: context.getInitialState(),
+            ...context.getModules(stats)
           }
         );
       }

@@ -1,24 +1,60 @@
-export default (stats, modules) => {
-  if (
-    (typeof stats === 'undefined' || !stats) ||
-    (!stats.modules || Object.prototype.toString.call(stats.modules) !== '[object Array]') ||
-    (!stats.chunks || Object.prototype.toString.call(stats.chunks) !== '[object Array]') ||
-    (!stats.entrypoints || typeof stats.entrypoints !== 'object')
-  ) throw new Error('Stats is malformed.');
+import validateStats from './utils/validateStats';
+
+export function extractChunks(stats, modules) {
+  let chunkIds = [];
+  let chunks = [];
+  modules.forEach(module => {
+    module.chunks.forEach(chunkId => {
+      const chunk = stats.chunks.find(chunk => chunk.id === chunkId);
+      if (chunkIds.indexOf(chunk.id) === -1) {
+        const nextChunk = { ...module, ...chunk };
+        nextChunk.moduleId = module.id;
+        nextChunk.key = module.key;
+        chunks.push(nextChunk);
+      }
+    })
+  })
+  return chunks;
+}
+
+export function extractEntry(stats) {
+  let chunkIds = [];
+  const chunks = [];
+  for (let prop in stats.entrypoints) {
+    if (stats.entrypoints.hasOwnProperty(prop)) {
+      stats.entrypoints[prop].chunks.forEach(chunkId => {
+        if (chunkIds.indexOf(chunkId) === -1) {
+          chunks.push(stats.chunks.find(chunk => chunk.id === chunkId));
+          chunkIds.push(chunkId);
+        }
+      });
+    }
+  }
+  return chunks;
+}
+
+export default (stats, modules, webpackModules, ignoreEntry = false) => {
+  validateStats(stats);
 
   const statModules = [];
   stats.modules.forEach(module => {
     let filter = false;
     let key;
-    for (let prop in modules) {
-      if (modules.hasOwnProperty(prop)) {
-        if (module.identifier.indexOf(modules[prop]) === (module.identifier.length - modules[prop].length)) {
-          filter = true;
-          key = prop;
-          break;
+    if (webpackModules[module.id]) {
+      filter = true;
+      key = webpackModules[module.id].key;
+    } else {
+      for (let prop in modules) {
+        if (modules.hasOwnProperty(prop)) {
+          if (module.identifier.indexOf(modules[prop]) === (module.identifier.length - modules[prop].length)) {
+            filter = true;
+            key = prop;
+            break;
+          }
         }
       }
     }
+
     if (filter) {
       statModules.push({
         ...module,
@@ -28,24 +64,10 @@ export default (stats, modules) => {
     return false;
   });
 
-  modules = statModules;
+  let chunks = extractChunks(stats, statModules);
 
-  let chunks = [];
-  modules.forEach(module => {
-    module.chunks.forEach(chunkId => {
-      const chunk = stats.chunks.find(chunk => chunk.id === chunkId);
-      chunk.moduleId = module.id;
-      chunk.key = module.key;
-      chunks.push(chunk);
-    })
-  })
-
-  for (let prop in stats.entrypoints) {
-    if (stats.entrypoints.hasOwnProperty(prop)) {
-      stats.entrypoints[prop].chunks.forEach(chunkId => {
-        chunks.push(stats.chunks.find(chunk => chunk.id === chunkId));
-      });
-    }
+  if (!ignoreEntry) {
+    chunks.push(...extractEntry(stats));
   }
 
   return chunks;

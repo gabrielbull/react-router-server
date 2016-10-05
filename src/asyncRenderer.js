@@ -1,8 +1,10 @@
 import { renderToString } from 'react-dom/server';
 import extractModules from './extractModules';
+import crossReferenceStats from './crossReferenceStats';
 
 class AsyncRenderer {
   modules = {};
+  webpackModules = {};
 
   asyncRenderIdx = 0;
   asyncMountIdx = 0;
@@ -21,6 +23,7 @@ class AsyncRenderer {
     this.element = element;
     this.context = context;
     this.context.getInitialState = this.getInitialState;
+    this.context.getChunks = this.getChunks;
     this.context.getModules = this.getModules;
   }
 
@@ -98,12 +101,39 @@ class AsyncRenderer {
     this.modules[name] = path;
   }
 
-  getModules = (stats) => {
-    return extractModules(stats, this.modules);
+  addWebpackModules = (name, modules) => {
+    const nextModules = {};
+    for (let prop in modules) {
+      if (modules.hasOwnProperty(prop)) {
+        nextModules[prop] = { ...modules[prop], key: name };
+      }
+    }
+    this.webpackModules = { ...this.webpackModules, ...nextModules };
   };
 
   getInitialState = () => {
     return { ...this.asyncMountResults };
+  };
+
+  getChunks = (stats, stats2) => {
+    stats = extractModules(stats, this.modules, this.webpackModules, stats2 ? true : false);
+    if (stats2) {
+      return crossReferenceStats(stats, stats2);
+    }
+    return stats;
+  };
+
+  getModules = (stats, stats2) => {
+    const chunks = this.getChunks(stats, stats2);
+
+    const files = [].concat.apply([], chunks.map(module => module.files )).filter(file => !file.match(/\.map$/));
+    const modules = [].concat.apply([], chunks.filter(module => module.key).map(module => ({
+      key: module.key,
+      chunk: module.id,
+      module: module.moduleId
+    })));
+
+    return { files, modules };
   };
 }
 
