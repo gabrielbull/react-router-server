@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.2.0 (October 5th, 2016)
+
+= Added webpack bundle support
+- Changed import to be a callback on the importModule function
+
 ## 0.1.4 (October 4th, 2016)
 
 - Renamed fetchProps to fetchState

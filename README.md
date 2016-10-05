@@ -29,8 +29,9 @@ the server side and resolves all issues with mounting on the client side.
     * [preloadModules](#preload-modules)
     * [renderToString](#render-to-string)
     * [ServerStateProvider](#server-state-provider)
-5. [Contributing](#contributing)
-6. [License](#license)
+5. [Webpack Bundle Support](#webpack)
+6. [Contributing](#contributing)
+7. [License](#license)
 
 <a name="installation"></a>
 ## Installation
@@ -60,7 +61,7 @@ import { Match, importModule } from 'react-router-server';
 <Match
   exactly
   pattern="/test"
-  render={matchProps => importModule('moduleName', './module', System.import("./module"))
+  render={matchProps => importModule('moduleName', './module', () => System.import("./module"))
     .then(module => {
       const Component = module.default;
       return <Component/>;
@@ -199,7 +200,7 @@ __name__: Unique name of your module.
 
 __path__: Path to your module relative to the current file. Same as the path in the systemImport param.
 
-__systemImport__: A `System.import("./path/to/your/module")` call.
+__systemImport__: A function returning a promise with your `System.import("./path/to/your/module")` call.
 
 <a name="match"></a>
 ### Match 
@@ -231,6 +232,60 @@ __context__: The server context.
 
 The ServerStateProvider component is used for providing the server state 
 to the client side. Provided by the `state` prop.
+
+<a name="webpack"></a>
+## Webpack Bundle Support
+
+Server Side Rendering (SSR) is nice, but your app is probably complicated and 
+uses Webpack loaders to load CSS or other types of files. Traditionally, 
+this has always been complicated for SSR because those Webpack loaders are 
+not supported by NodeJS. 
+
+To work around this limitation, you can import your Webpack bundle directly 
+into your React Router Server application and do SSR on the bundle instead 
+of importing the unbundled files. 
+
+To do this, you will need to create a bundle for the server app and a bundle 
+for the client app, you will need the Webpack stats on both of them to cross 
+reference the modules, as they won't be the same for the server and the client.
+
+React Router Server will provide a `importWebpackBundle` method to import 
+the bundle in your server.
+
+Here's a simple example of how this works:
+
+```jsx
+import { ServerRouter, createServerRenderContext } from 'react-router';
+import { renderToString, importWebpackBundle } from 'react-router-server';
+import serverStats from './stats/server.json';
+import clientStats from './stats/client.json';
+
+importWebpackBundle(
+  () => System.import('./app'), // path to your your server bundle
+  (path) => System.import(`./${path}`) // callback for module imports inside your app
+)
+  then(App => {
+    const context = createServerRenderContext();
+    renderToString(
+        <ServerRouter
+          location={'/current/path/' /* provide the request url */}
+          context={context}
+        >
+          <App/>
+        </ServerRouter>
+    )
+      .then(html => {
+        const result = context.getResult();
+        const initialState = context.getInitialState();
+        const modules = context.getModules(serverStats, clientStats); // you need to provide stats for the server bundle and the client bundle
+        
+        // send data to client, with the initial state and preloading the modules
+      })
+  });
+```
+
+To use `System.import` in your server script, take a look at the `babel-plugin-system-import-transformer`
+Babel plugin.
 
 <a name="contributing"></a>
 ## Contributing
