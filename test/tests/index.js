@@ -5,7 +5,8 @@ import {
   Match,
   preloadModules,
   renderToString,
-  ServerStateProvider
+  ServerStateProvider,
+  importWebpackBundle
 } from '../../src/index';
 
 describe('index', () => {
@@ -16,5 +17,6 @@ describe('index', () => {
     expect(preloadModules).to.exist;
     expect(renderToString).to.exist;
     expect(ServerStateProvider).to.exist;
+    expect(importWebpackBundle).to.exist;
   });
 });

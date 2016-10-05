@@ -14,9 +14,9 @@ export default function (modules, stats) {
   stats.modules.forEach(module => {
     if (modulesValues[module.name]) {
       statModules.push({
-       ...module,
-       key: modulesValues[module.name].key
-       });
+        ...module,
+        key: modulesValues[module.name].key
+      });
     }
   });
 

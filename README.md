@@ -25,6 +25,7 @@ the server side and resolves all issues with mounting on the client side.
 4. [API](#api)
     * [fetchState](#fetch-state)
     * [importModule](#import-module)
+    * [importWebpackBundle](#import-webpack-bundle)
     * [Match](#match)
     * [preloadModules](#preload-modules)
     * [renderToString](#render-to-string)
@@ -202,6 +203,15 @@ __path__: Path to your module relative to the current file. Same as the path in 
 
 __systemImport__: A function returning a promise with your `System.import("./path/to/your/module")` call.
 
+<a name="import-webpack-bundle"></a>
+### importWebpackBundle 
+
+`importModule(appSystemImport, moduleSystemImport)`
+
+__systemImport__: A function returning a promise with your `System.import("./path/to/your/app.bundle")` call.
+
+__moduleSystemImport__: A function returning a promise with your `System.import("./path/to/your/0.module.bundle")` call. E.G. `(path) => System.import('./' + path)`
+
 <a name="match"></a>
 ### Match 
 
@@ -249,7 +259,7 @@ To do this, you will need to create a bundle for the server app and a bundle
 for the client app, you will need the Webpack stats on both of them to cross 
 reference the modules, as they won't be the same for the server and the client.
 
-React Router Server will provide a `importWebpackBundle` method to import 
+React Router Server provides a `importWebpackBundle` method to import 
 the bundle in your server.
 
 Here's a simple example of how this works:
