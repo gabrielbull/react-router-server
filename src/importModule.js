@@ -24,6 +24,7 @@ function addDefaultExtension(path) {
 }
 
 export default (name, path, systemImport) => {
+  systemImport = systemImport();
   if (isNode()) {
     const asyncRenderer = modules.asyncRenderer;
     modules.asyncRenderer = null;

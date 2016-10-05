@@ -12,7 +12,7 @@ class App extends Component {
         <Match
           exactly
           pattern="/"
-          render={matchProps => importModule('home', './home', System.import('./home'))
+          render={matchProps => importModule('home', './home', () => System.import('./home'))
             .then(module => {
               const Component = module.default;
               return <Component/>;
@@ -22,7 +22,7 @@ class App extends Component {
         <Match
           exactly
           pattern="/test"
-          render={matchProps => importModule('test', './test', System.import('./test'))
+          render={matchProps => importModule('test', './test', () => System.import('./test'))
             .then(module => {
               const Component = module.default;
               return <Component/>;
