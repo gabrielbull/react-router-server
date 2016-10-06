@@ -37,8 +37,16 @@ export default (name, path, systemImport) => {
           const currentModules = { ...__webpack_require__.c };
           systemImport.then(() => {
             const newModules = shallowDiff(currentModules, { ...__webpack_require__.c });
-            modules.registeredWebpackModules[name] = newModules;
-            asyncRenderer.addWebpackModules(name, newModules);
+            const finalModules = {};
+            for (let prop in newModules) {
+              if (newModules.hasOwnProperty(prop)) {
+                finalModules[prop] = newModules[prop];
+                break;
+              }
+            }
+
+            modules.registeredWebpackModules[name] = finalModules;
+            asyncRenderer.addWebpackModules(name, finalModules);
           });
         }
       }

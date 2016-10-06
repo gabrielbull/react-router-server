@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.2.1 (October 6th, 2016)
+
+- Fixed issue with webpack bundle that would import the wrong module
+
 ## 0.2.0 (October 5th, 2016)
 
 - Added webpack bundle support
