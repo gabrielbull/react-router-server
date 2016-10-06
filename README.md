@@ -43,7 +43,7 @@ the server side and resolves all issues with mounting on the client side.
 ## Example
 
 A working example is provided in the example directory of this project.
-To try for yourself, you can clone this project and run `npm run start`. 
+To try for yourself, you can clone this project and run `npm start`. 
 This will provide a server accessible at 
 [http://localhost:3000](http://localhost:3000).
 
