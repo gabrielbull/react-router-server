@@ -229,7 +229,7 @@ for preloading.
 <a name="render-to-string"></a>
 ### renderToString
 
-Async version of ReactDOm.renderToString.
+Async version of ReactDOM.renderToString.
 
 ```renderToString(element, context)```
 
