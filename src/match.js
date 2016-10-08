@@ -17,17 +17,26 @@ class Match extends Component {
     serverRouter: PropTypes.object
   }
 
-  render() {
-    const { match, render, ...props } = this.props;
-    const nextRender = matchProps => wrapperComponent(
+  componentWillMount() {
+    const { render } = this.props;
+    this.wrapperComponent = wrapperComponent(
       render,
       { ...this.props },
       this.context.serverRouter && this.context.serverRouter.asyncRenderer ?
         this.context.serverRouter.asyncRenderer : null
-    )(matchProps);
+    );
+    const WrapperComponent = this.wrapperComponent;
+    this.nextRender = matchProps => {
+      return <WrapperComponent matchProps={matchProps}/>;
+    }
+  }
+
+  render() {
+    const { match, ...props } = this.props;
+    delete props.render;
     delete props.willEnter;
     const Match = match;
-    return <Match render={nextRender} {...props}/>;
+    return <Match render={this.nextRender} {...props}/>;
   }
 }
 

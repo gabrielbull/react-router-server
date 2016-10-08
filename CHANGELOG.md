@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.2.2 (October 8th, 2016)
+
+- Fixed bug that would instantiate new components when not necessary
+
 ## 0.2.1 (October 6th, 2016)
 
 - Fixed issue with webpack bundle that would import the wrong module

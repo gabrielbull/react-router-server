@@ -1,8 +1,12 @@
 import React, { Component, PropTypes, isValidElement } from 'react'
 import { setAsyncRenderer } from './importModule';
 
-export default (render, options, asyncRenderer) => (matchProps) => {
-  class WrapperComponent extends Component {
+export default (render, options, asyncRenderer) => {
+  return class extends Component {
+    static propTypes = {
+      matchProps: PropTypes.object
+    };
+
     isComponentMounted = false;
 
     constructor() {
@@ -28,7 +32,7 @@ export default (render, options, asyncRenderer) => (matchProps) => {
 
       if (!WrappedComponent) {
         setAsyncRenderer(asyncRenderer);
-        WrappedComponent = render(matchProps, { ...this.state.nextProps });
+        WrappedComponent = render(this.props.matchProps, { ...this.state.nextProps });
       }
 
       if (WrappedComponent.then) {
@@ -64,6 +68,4 @@ export default (render, options, asyncRenderer) => (matchProps) => {
       return null;
     }
   }
-
-  return <WrapperComponent/>;
 };
