@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.3.0 (October 8th, 2016)
+
+- Updated to react-router v4.0.0-alpha.4
+
 ## 0.2.2 (October 8th, 2016)
 
 - Fixed bug that would instantiate new components when not necessary
