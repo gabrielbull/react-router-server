@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.4.0 (October 11th, 2016)
+
+- Changed importWebpackBundle to return the whole module instead of only the default export
+
 ## 0.3.0 (October 8th, 2016)
 
 - Updated to react-router v4.0.0-alpha.4

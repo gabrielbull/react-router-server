@@ -19,7 +19,7 @@ export default function (systemImport, importCallback) {
     systemImport()
       .then(module => {
         global.webpackJsonpapp = global.window.webpackJsonpapp;
-        resolve(module.default);
+        resolve(module);
       })
       .catch(reject);
   });

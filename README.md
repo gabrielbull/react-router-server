@@ -119,7 +119,7 @@ renderToString(
     >
       <App/>
     </ServerRouter>
-);
+).then(html => console.log(html)); // send html
 ```
 
 An initial state and modules to preload will be passed through the context.
@@ -274,7 +274,7 @@ importWebpackBundle(
   () => System.import('./app'), // path to your your server bundle
   (path) => System.import(`./${path}`) // callback for module imports inside your app
 )
-  then(App => {
+  then(({ default: App }) => {
     const context = createServerRenderContext();
     renderToString(
         <ServerRouter
