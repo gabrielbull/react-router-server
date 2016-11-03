@@ -28,34 +28,9 @@ export default (name, path, systemImport) => {
   if (isNode()) {
     const asyncRenderer = modules.asyncRenderer;
     modules.asyncRenderer = null;
-
-    if (typeof __webpack_require__ === 'function') {
-      if (asyncRenderer) {
-        if (modules.registeredWebpackModules[name]) {
-          asyncRenderer.addWebpackModules(name, modules.registeredWebpackModules[name]);
-        } else {
-          const currentModules = { ...__webpack_require__.c };
-          systemImport.then(() => {
-            const newModules = shallowDiff(currentModules, { ...__webpack_require__.c });
-            const finalModules = {};
-            for (let prop in newModules) {
-              if (newModules.hasOwnProperty(prop)) {
-                finalModules[prop] = newModules[prop];
-                break;
-              }
-            }
-
-            modules.registeredWebpackModules[name] = finalModules;
-            asyncRenderer.addWebpackModules(name, finalModules);
-          });
-        }
-      }
-      return systemImport;
-    } else {
-      path = addDefaultExtension(join(dirname(callerFile()), path));
-      if (asyncRenderer) asyncRenderer.addModule(name, path);
-      return systemImport;
-    }
+    path = addDefaultExtension(join(dirname(callerFile()), path));
+    if (asyncRenderer) asyncRenderer.addModule(name, path);
+    return systemImport;
   }
 
   if (modules.registeredModules[name]) {

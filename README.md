@@ -49,6 +49,14 @@ project. To try for yourself, you can clone this project and run
 `npm run examples:simple`. This will provide a server accessible at 
 [http://localhost:3000](http://localhost:3000).
 
+## Complex example
+
+A more complex example, using a webpack bundle on the server side is 
+also provided in the examples directory of this project. To try for 
+yourself, you can clone this project and run 
+`npm run examples:complex`. This will provide a server accessible at 
+[http://localhost:3000](http://localhost:3000).
+
 <a name="usage"></a>
 ## Usage
 
@@ -261,39 +269,35 @@ To do this, you will need to create a bundle for the server app and a bundle
 for the client app, you will need the Webpack stats on both of them to cross 
 reference the modules, as they won't be the same for the server and the client.
 
-React Router Server provides a `importWebpackBundle` method to import 
-the bundle in your server.
+To bundle your app for node, use the `target: node` option in your 
+webpack config. For more information, checkout the 
+[webpack docs](https://webpack.github.io/docs/configuration.html#target).
 
 Here's a simple example of how this works:
 
 ```jsx
 import { ServerRouter, createServerRenderContext } from 'react-router';
-import { renderToString, importWebpackBundle } from 'react-router-server';
+import { renderToString } from 'react-router-server';
 import serverStats from './stats/server.json';
 import clientStats from './stats/client.json';
+import App from './app.bundle';
 
-importWebpackBundle(
-  () => System.import('./app'), // path to your your server bundle
-  (path) => System.import(`./${path}`) // callback for module imports inside your app
+const context = createServerRenderContext();
+renderToString(
+    <ServerRouter
+      location={'/current/path/' /* provide the request url */}
+      context={context}
+    >
+      <App/>
+    </ServerRouter>
 )
-  then(({ default: App }) => {
-    const context = createServerRenderContext();
-    renderToString(
-        <ServerRouter
-          location={'/current/path/' /* provide the request url */}
-          context={context}
-        >
-          <App/>
-        </ServerRouter>
-    )
-      .then(html => {
-        const result = context.getResult();
-        const initialState = context.getInitialState();
-        const modules = context.getModules(serverStats, clientStats); // you need to provide stats for the server bundle and the client bundle
-        
-        // send data to client, with the initial state and preloading the modules
-      })
-  });
+  .then(html => {
+    const result = context.getResult();
+    const initialState = context.getInitialState();
+    const modules = context.getModules(serverStats, clientStats); // you need to provide stats for the server bundle and the client bundle
+    
+    // send data to client, with the initial state and preloading the modules
+  })
 ```
 
 To use `System.import` in your server script, take a look at the `babel-plugin-system-import-transformer`
