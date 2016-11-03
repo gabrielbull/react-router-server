@@ -1,7 +1,7 @@
 {
   "name": "react-router-server",
   "author": "Gabriel Bull",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Server Side Rendering library for React Router v4",
   "main": "./build/index.js",
   "keywords": [
