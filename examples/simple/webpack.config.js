@@ -3,7 +3,7 @@ import StatsPlugin from 'stats-webpack-plugin';
 
 module.exports = {
   entry: {
-    app: './example/src/index.js'
+    app: './examples/simple/src/index.js'
   },
 
   output:{

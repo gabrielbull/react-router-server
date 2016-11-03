@@ -40,11 +40,13 @@ the server side and resolves all issues with mounting on the client side.
 > npm install react-router-server --save
 
 <a name="example"></a>
-## Example
+## Examples
 
-A working example is provided in the example directory of this project.
-To try for yourself, you can clone this project and run `npm start`. 
-This will provide a server accessible at 
+### Simple example
+
+A working simple example is provided in the examples directory of this 
+project. To try for yourself, you can clone this project and run 
+`npm run examples:simple`. This will provide a server accessible at 
 [http://localhost:3000](http://localhost:3000).
 
 <a name="usage"></a>

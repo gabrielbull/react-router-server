@@ -10,7 +10,7 @@ Thumbs.db
 
 # Node
 /node_modules
-/example/build
+/examples/simple/build
 
 /lib
 /build
