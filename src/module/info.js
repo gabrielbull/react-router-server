@@ -1,8 +1,7 @@
 import dirname from '../utils/dirname';
-import shallowDiff from '../utils/shallowDiff';
 import join from '../utils/join';
 
-export const extractModuleList = () => {
+/* @deprecated export const extractModuleList = () => {
   const traversed = {};
   const finalModules = [];
 
@@ -25,7 +24,7 @@ export const extractModuleList = () => {
 
   traverse(module);
   return finalModules;
-};
+};*/
 
 export const isWebpack = loadFunc => {
   return loadFunc.match(/\/\* System\.import \*\/\(([^\)]*)\)/) ? true : false;
@@ -35,9 +34,14 @@ export const isSystemImportTransformer = loadFunc => {
   return loadFunc.match(/ImportTransformer/) ? true : false;
 };
 
-export const infoFromWebpack = () => {
-  const matches = funcString.match(/\/\* System\.import \*\/\(([^\)]*)\)/);
+export const getWebpackId = loadFunc => {
+  const matches = loadFunc.match(/\/\* System\.import \*\/\(([^\)]*)\)/);
+  return matches[1];
 };
+
+export const infoFromWebpack = loadFunc => ({
+  id: getWebpackId(loadFunc)
+});
 
 export const infoFromSystemImportTransformer = (loadFunc, module) => {
   const matches = loadFunc.match(/require\(([^)\]]*)\)/);
@@ -57,7 +61,11 @@ export default (currentModule, loadFunc) => {
       ...infoFromSystemImportTransformer(loadFunc, currentModule)
     };
   } else if (isWebpack(loadFunc)) {
-
+    finalModule = {
+      type: 'webpack',
+      ...finalModule,
+      ...infoFromWebpack(loadFunc)
+    };
   }
 
   return () => {

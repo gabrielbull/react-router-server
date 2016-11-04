@@ -10,5 +10,9 @@
     ["module-alias", [
       { "src": "./src", "expose": "react-router-server" }
     ]]
+  ],
+  "ignore": [
+    "bundle.js",
+    "*.bundle.js"
   ]
 }
