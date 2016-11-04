@@ -6,11 +6,8 @@ class ServerStateProvider extends Component {
     children: PropTypes.oneOfType([PropTypes.element, PropTypes.func, PropTypes.node]),
   };
 
-  static defaultProps = {
-  };
-
   static childContextTypes = {
-    serverState: PropTypes.object
+    reactRouterServerServerState: PropTypes.object
   };
 
   asyncMountIdx = 0;
@@ -18,7 +15,7 @@ class ServerStateProvider extends Component {
 
   getChildContext() {
     return {
-      serverState: {
+      reactRouterServerServerState: {
         getState: this.getState,
         getAsyncMountIdx: this.getAsyncMountIdx
       }

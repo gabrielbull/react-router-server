@@ -11,14 +11,18 @@ const renderPass = (context, element) => {
     </AsyncRenderer>
   );
 
-  if (context.modulesLoading === 0) {
+  if (context.fetchingStates <= 0 && context.modulesLoading <= 0) {
     context.resolve(result);
   }
 };
 
 export default (element) => {
   return new Promise((resolve, reject) => {
-    const context = { resolve, reject };
+    const context = {
+      resolve, reject,
+      modulesLoading: 0,
+      fetchingStates: 0
+    };
     renderPass(context, element);
   });
 };

@@ -4,10 +4,10 @@ import renderToString from '../../../src/renderer/renderToString';
 import App from './includes/App';
 
 describe('renderToString', () => {
-  it('should do something', done => {
+  it('should do render to string with module loaded and state fetched', done => {
     renderToString(<App/>)
       .then(html => {
-        console.log(html);
+        expect(html).to.match(/foobar/);
         done();
       })
   });

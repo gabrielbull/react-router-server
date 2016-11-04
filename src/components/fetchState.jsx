@@ -1,48 +1,58 @@
 import React, { Component, PropTypes } from 'react';
+import isNode from '../utils/isNode';
 
 export default (mapStateToProps, mapActionsToProps) => WrappedComponent =>{
   return class extends Component {
     static contextTypes = {
-      serverRouter: PropTypes.object,
-      serverState: PropTypes.object,
-      reactRouterServerFetchStateParentId: PropTypes.string
+      reactRouterServerAsyncRenderer: PropTypes.object,
+      reactRouterServerServerState: PropTypes.object,
+      reactRouterServerFetchStateParentIndex: PropTypes.string
     };
 
     static childContextTypes = {
-      reactRouterServerFetchStateParentId: PropTypes.string
+      reactRouterServerFetchStateParentIndex: PropTypes.string
     };
 
     getChildContext() {
       return {
-        reactRouterServerFetchStateParentId: this.idx
+        reactRouterServerFetchStateParentIndex: this.idx
       };
     }
+
+    index;
 
     constructor() {
       super();
       this.state = {};
     }
 
-    get asyncRenderer() {
-      return typeof this.context.serverRouter === 'object' && this.context.serverRouter.asyncRenderer ?
-        this.context.serverRouter.asyncRenderer : null;
+    componentWillMount() {
+      this._componentIsMounted = true;
+      const {
+        reactRouterServerAsyncRenderer: asyncRenderer,
+        reactRouterServerServerState: serverState,
+        reactRouterServerFetchStateParentIndex: parentIndex
+      } = this.context;
+
+      if (asyncRenderer) {
+        this.index = asyncRenderer.getFetchStateIndex(parentIndex);
+        if (!asyncRenderer.hasFetchStateResult(this.index)) {
+          asyncRenderer.startFetchState();
+        } else {
+          this.setState({ ...asyncRenderer.getFetchStateResult(this.index) });
+        }
+      } else if (serverState) {
+        // todo: client side
+        //this.idx = this.context.serverState.getAsyncMountIdx(this.context.reactRouterServerFetchStateParentId);
+        //const state = this.context.serverState.getState(this.idx);
+        //if (state) {
+          //this.setState({ ...state });
+        //}
+      }
     }
 
-    componentWillMount() {
-      if (this.asyncRenderer) {
-        this.idx = this.asyncRenderer.getAsyncMountIdx(this.context.reactRouterServerFetchStateParentId);
-        if (!this.asyncRenderer.hasAsyncMountResult(this.idx)) {
-          this.asyncRenderer.awaitForAsyncMount++;
-        } else {
-          this.setState({ ...this.asyncRenderer.getAsyncMountResult(this.idx) });
-        }
-      } else if (this.context.serverState) {
-        this.idx = this.context.serverState.getAsyncMountIdx(this.context.reactRouterServerFetchStateParentId);
-        const state = this.context.serverState.getState(this.idx);
-        if (state) {
-          this.setState({ ...state });
-        }
-      }
+    componentWillUnmount() {
+      this._componentIsMounted = false;
     }
 
     actions = () => ({
@@ -50,13 +60,14 @@ export default (mapStateToProps, mapActionsToProps) => WrappedComponent =>{
     });
 
     handleDone = data => {
-      if (this.asyncRenderer) {
-        if (!this.asyncRenderer.hasAsyncMountResult(this.idx)) {
-          this.asyncRenderer.storeAsyncMountResult(this.idx, data);
-          this.asyncRenderer.awaitForAsyncMount--;
-          this.asyncRenderer.handleAsyncComponentMounted();
+      if (isNode()) {
+        const { reactRouterServerAsyncRenderer: asyncRenderer } = this.context;
+        if (asyncRenderer) {
+          if (!asyncRenderer.hasFetchStateResult(this.index)) {
+            asyncRenderer.finishFetchState(this.index, data);
+          }
         }
-      } else {
+      } else if (this._componentIsMounted) {
         this.setState({ ...data });
       }
     };
