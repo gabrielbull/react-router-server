@@ -22,9 +22,6 @@
     "prebuild": "npm run eslint && npm run test",
     "build": "babel ./src --out-dir ./build",
     "build-publish": "npm run build && npm publish",
-    "watch": "babel-node -- node_modules/.bin/webpack --watch --config ./example/webpack.config.js",
-    "preexamples:simple": "babel-node -- node_modules/.bin/webpack --config ./examples/simple/webpack.config.js",
-    "examples:simple": "babel-node --plugins system-import-transformer -- examples/simple/src/server.js",
     "test": "mocha test"
   },
   "peerDependencies": {

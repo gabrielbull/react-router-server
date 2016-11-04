@@ -6,6 +6,7 @@
   ],
   "plugins": [
     "transform-decorators-legacy",
+    "system-import-transformer",
     ["module-alias", [
       { "src": "./src", "expose": "react-router-server" }
     ]]
