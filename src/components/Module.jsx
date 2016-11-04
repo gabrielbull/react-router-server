@@ -10,16 +10,22 @@ class Module extends React.Component {
     children: React.PropTypes.func
   };
 
+  static contextTypes = {
+    reactRouterServerAsyncRenderer: React.PropTypes.object
+  };
+
   state = {
     module: null
   };
 
   componentWillMount() {
+    const { reactRouterServerAsyncRenderer } = this.context;
     this._componentIsMounted = true;
     if (exists(module, this.props.module)) {
       const { info, loadedModule } = fetch(module, this.props.module);
       this.setState({ module: loadedModule });
     } else {
+      if (reactRouterServerAsyncRenderer) reactRouterServerAsyncRenderer.startLoadingModule();
       load(module, this.props.module)(this.props.module())
         .then(({ info, module: loadedModule }) => {
           add(module, this.props.module, { info, loadedModule });
@@ -27,8 +33,8 @@ class Module extends React.Component {
             if (this._componentIsMounted) {
               this.setState({ module: loadedModule });
             }
-          } else {
-            //console.log(info);
+          } else if (reactRouterServerAsyncRenderer) {
+            reactRouterServerAsyncRenderer.finishLoadingModule(info, loadedModule);
           }
         });
     }

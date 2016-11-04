@@ -1,8 +1,24 @@
-import AsyncRenderer from './asyncRenderer';
+import * as React from 'react';
+import { renderToString } from 'react-dom/server';
+import AsyncRenderer from '../components/AsyncRenderer';
 
-export default (element, context) => {
+const renderPass = (context, element) => {
+  context.callback = () => renderPass(context, element);
+
+  const result = renderToString(
+    <AsyncRenderer context={context}>
+      {element}
+    </AsyncRenderer>
+  );
+
+  if (context.modulesLoading === 0) {
+    context.resolve(result);
+  }
+};
+
+export default (element) => {
   return new Promise((resolve, reject) => {
-    context.asyncRenderer = new AsyncRenderer(element, context);
-    context.asyncRenderer.render(resolve, reject);
+    const context = { resolve, reject };
+    renderPass(context, element);
   });
 };
