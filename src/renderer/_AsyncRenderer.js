@@ -2,7 +2,7 @@ import { renderToString } from 'react-dom/server';
 import extractModules from './extractModules';
 import crossReferenceStats from './crossReferenceStats';
 
-class AsyncRenderer {
+class _AsyncRenderer {
   modules = {};
   webpackModules = {};
 
@@ -135,6 +135,12 @@ class AsyncRenderer {
 
     return { files, modules };
   };
+}
+
+class AsyncRenderer {
+  render(resolve, reject) {
+
+  }
 }
 
 export default AsyncRenderer;
