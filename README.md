@@ -284,7 +284,7 @@ for preloading.
 
 Async version of ReactDOM.renderToString.
 
-```renderToString(element)```
+`renderToString(element)`
 
 __element__: The element to render
 

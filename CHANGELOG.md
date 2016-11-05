@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.1 (November 5th, 2016)
+
+- Removed debug code
+ 
 ## 1.0.0 (November 5th, 2016)
 
 - Simplified API

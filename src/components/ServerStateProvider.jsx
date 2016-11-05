@@ -23,7 +23,6 @@ class ServerStateProvider extends Component {
   }
 
   getState = (idx) => {
-    console.log(this.props.state);
     if (this.props.state && this.props.state[idx]) {
       const state = this.props.state[idx];
       delete this.props.state[idx];
