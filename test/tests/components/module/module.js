@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { expect } from 'chai';
-import Module from '../../../src/components/Module';
+import Module from '../../../../src/components/Module';
 import webpack from 'webpack';
 import webpackConfig from './includes/webpack.config';
 
