@@ -54,14 +54,14 @@ It also allows to do code splitting by providing a component that can be used to
 
 https://github.com/gabrielbull/react-router-server-simple-example
 
-A working simple example is 
+A working simple example that works without webpack is
 [provided here](https://github.com/gabrielbull/react-router-server-simple-example). 
 To try for yourself, you can clone it and run 
 `npm install && npm start`. This will provide a server accessible at 
 [http://localhost:3000](http://localhost:3000).
 
 <a name="complex-example"></a>
-## Complex example
+### Complex example
 
 A working complex example using Webpack bundle and preloading is 
 [provided here](https://github.com/gabrielbull/react-router-server-complex-example). 
