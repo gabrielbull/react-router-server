@@ -23,6 +23,14 @@ export default (mapStateToProps, mapActionsToProps) => WrappedComponent =>{
       this.state = {};
     }
 
+    componentDidMount() {
+      this._isMounted = true
+    }
+
+    componentWillUnmount() {
+      this._isMounted = false
+    }
+
     get asyncRenderer() {
       return typeof this.context.serverRouter === 'object' && this.context.serverRouter.asyncRenderer ?
         this.context.serverRouter.asyncRenderer : null;
@@ -56,7 +64,7 @@ export default (mapStateToProps, mapActionsToProps) => WrappedComponent =>{
           this.asyncRenderer.awaitForAsyncMount--;
           this.asyncRenderer.handleAsyncComponentMounted();
         }
-      } else {
+      } else if (this._isMounted) {
         this.setState({ ...data });
       }
     };
