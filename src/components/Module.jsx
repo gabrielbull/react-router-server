@@ -6,7 +6,6 @@ import isNode from '../utils/isNode';
 class Module extends React.Component {
   static propTypes = {
     module: React.PropTypes.func.isRequired,
-    name: React.PropTypes.string.isRequired,
     children: React.PropTypes.func
   };
 
