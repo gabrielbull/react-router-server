@@ -9,186 +9,246 @@
 [![npm version](https://img.shields.io/npm/v/react-router-server.svg)](https://www.npmjs.org/package/react-router-server)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/gabrielbull/react-router-server?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-Server Side Rendering library for React Router v4. Allows to do 
-code-splitting and to fetch data. Renders the page on 
-the server side and resolves all issues with mounting on the client side.
+Server Side Rendering library for React Router v4.
 
 ## Table Of Content
 
-1. [Installation](#installation)
-2. [Examples](#example)
-  * Simple Example
-  * Complex Example
-3. [Usage](#usage)
-  * Code Splitting
-  * Fetch State
-  * Usage with Webpack
-  * Usage with React Router
-4. [API](#api)
-    * [extractModules](#extract-modules)
-    * [fetchState](#fetch-state)
-    * [Module](#module)
-    * [preload](#preload)
-    * [renderToString](#render-to-string)
-    * [ServerStateProvider](#server-state-provider)
+1. [About](#about)
+2. [Installation](#installation)
+3. [Examples](#examples)
+  * [Simple Example](#simple-example)
+  * [Complex Example](#complex-example)
+4. [Usage](#usage)
+  * [Server Side Rendering](#server-side-rendering)
+  * [Code Splitting](#code-splitting)
+  * [Fetch State](#fetch-state-usage)
+  * [Usage with Webpack](#webpack-usage)
+  * [Usage with React Router](#react-router-usage)
+5. [API](#api)
+  * [extractModules](#extract-modules)
+  * [fetchState](#fetch-state)
+  * [Module](#module)
+  * [preload](#preload)
+  * [renderToString](#render-to-string)
+  * [ServerStateProvider](#server-state-provider)
 6. [Contributing](#contributing)
 7. [License](#license)
+
+<a name="about"></a>
+## About
+
+This library allows to fetch states for your components on the server side and mount them on the client side.
+
+It also allows to do code splitting by providing a component that can be used to load modules splitted by Webpack 2.
 
 <a name="installation"></a>
 ## Installation
 
-> npm install react-router-server --save
+`npm install react-router-server --save`
 
-<a name="example"></a>
+<a name="examples"></a>
 ## Examples
 
+<a name="simple-example"></a>
 ### Simple example
 
-A working simple example is provided in the examples directory of this 
-project. To try for yourself, you can clone this project and run 
-`npm run examples:simple`. This will provide a server accessible at 
+https://github.com/gabrielbull/react-router-server-simple-example
+
+A working simple example is 
+[provided here](https://github.com/gabrielbull/react-router-server-simple-example). 
+To try for yourself, you can clone it and run 
+`npm install && npm start`. This will provide a server accessible at 
 [http://localhost:3000](http://localhost:3000).
 
+<a name="complex-example"></a>
 ## Complex example
 
-A more complex example, using a webpack bundle on the server side is 
-also provided in the examples directory of this project. To try for 
-yourself, you can clone this project and run 
-`npm run examples:complex`. This will provide a server accessible at 
+A working complex example using Webpack bundle and preloading is 
+[provided here](https://github.com/gabrielbull/react-router-server-complex-example). 
+To try for yourself, you can clone it and run 
+`npm install && npm start`. This will provide a server accessible at 
 [http://localhost:3000](http://localhost:3000).
 
 <a name="usage"></a>
 ## Usage
 
-<a name="loading-code-splitted-module"></a>
-### Loading code splitted module
+<a name="server-side-rendering"></a>
+### Server Side rendering
 
-To load a module splitted by webpack use the `importModule` method and 
- the `Match` component provided by this library.
+To render an app that has code splitting or state fetching, you need to load the modules and states required by your app
+before rendering. `react-dom/server` does not offer a function to do that, but you can use the `renderToString` function 
+provided by this library. This function will return a promise that will return the rendered app once the modules and states are loaded.
 
 ```jsx
-import { Match, importModule } from 'react-router-server';
+import { renderToString } from 'react-router-server';
+import App from './path/to/app';
 
-<Match
-  exactly
-  pattern="/test"
-  render={matchProps => importModule('moduleName', './module', () => System.import("./module"))
-    .then(module => {
-      const Component = module.default;
-      return <Component/>;
-    })
-  }
-/>
+renderToString(<App/>)
+  .then(({ html }) => {
+    // send html to client side
+  });
+```  
+
+<a name="code-splitting"></a>
+### Code Splitting
+
+The code splitting consist of a component that you can use to load modules splitted by Webpack 2. 
+It also allows you to get information on the modules required to render a page so that you can preload 
+the modules before displaying the page on the client side.
+
+To use code splitting, you will need to import the `Module` component and provide the `System.import` call inside 
+the module property of that component. Then, you need to defined a callback function as the children of the component.
+
+```jsx
+import { Module } from 'react-router-server';
+
+<Module module={() => System.import('./Foo')}>
+  {module => module ? <module.default/> : <div>Loading...</div>}
+</Module>
 ```
 
-<a name="loading-props-on-the-server-side"></a>
-### Loading props on the server side
+To preload the modules on the client side, you can use the `preload` method and pass the modules from the server into that method. 
 
-To load props for your components to render on the server side, 
-use the `fetchState` decorator.
+In the following example, `__INITIAL_MODULES__` would be provided by the server and rendered in the HTML document as a global variable.
 
 ```jsx
+import { preload } from 'react-router-server';
+import { render } from 'react-dom';
+import App from './path/to/app';
+
+preload(__INITIAL_MODULES__).then(() => render(<App/>, document.getElementById('#my-app')));
+```
+
+You can get the modules from the `renderToString` function on the server side and extract them from your webpack stats by using the `extractModules` method.
+For more information on usage with webpack, check the [usage with webpack](#webpack-usage) part of this read me.
+
+```jsx
+import { renderToString, extractModules } from 'react-router-server';
+import App from './path/to/app';
+import stats from './path/to/stats';
+
+renderToString(<App/>)
+  .then(({ html, modules }) => {
+    modules = extractModules(modules, stats);
+    // send html and modules to client side
+  });
+```
+
+<a name="fetch-state-usage"></a>
+### Fetch State
+
+On the server side, you will often need to fetch data before rendering your component and then pass that data to the client side
+so that the components are in sync.
+
+To fetch data for your components, use the `fetchState` decorator provided by this library. The `fetchState` decorator takes two arguments,
+`mapStateToProps` and `mapActionsToProps`. `mapStateToProps` allows you to map the state to the props of your component while `mapActionsToProps`
+allows you to map the `done` action to the props of your component. 
+
+```jsx
+import * as React from 'react';
+import { fetchState } from 'react-router-server';
+
 @fetchState(
-  state => ({
-    isLoaded: state.user ? true : false,
-    user: state.user
-  }),
-  actions => ({
-    done: actions.done
-  })
+  state => ({ message: state.message }),
+  actions => ({ done: actions.done })
 )
-class MyComponent extends Component {
+class MyComponent extends React.Component {
   componentWillMount() {
-    if (!this.props.isLoaded) {
-      loadAsyncUser()
-        .then(user => this.props.done({ user }));
+    if (!this.props.message) {
+      setTimeout(() => {
+        this.props.done({ message: 'Hello world!' });
+      }, 10);
     }
   }
-  
+
   render() {
-    ...
+    return (
+      <div>{this.props.message}</div>
+    );
   }
 }
 ```
 
-<a name="server-side"></a>
-### Server Side
+To pass that state from the server to the client, you need to wrap the client app with the `ServerStateProvider` and pass the 
+state from the server into that component's `state` property.
 
-You need to use the renderToString provided by this library:
-
-```jsx
-import renderToString from 'react-router-server';
-import { ServerRouter, createServerRenderContext } from 'react-router'
-
-const context = createServerRenderContext();
-
-renderToString(
-    <ServerRouter
-      location={'/current/path/' /* provide the request url */}
-      context={context}
-    >
-      <App/>
-    </ServerRouter>
-).then(html => console.log(html)); // send html
-```
-
-An initial state and modules to preload will be passed through the context.
-You will need to pass these to your HTML template to preload the modules 
-and pass the initialState to the client side.
+In the following example, `__INITIAL_STATE__` would be provided by the server and rendered in the HTML document as a global variable.
 
 ```jsx
-import stats from './stats.json';
+import { ServerStateProvider } from 'react-router-server';
+import App from './path/to/app';
 
-const initialState = context.getInitialState();
-const modules = context.getModules(stats);
+<ServerStateProvider state={__INITIAL_STATE__}>
+  <App/>
+</ServerStateProvider>
 ```
 
-You will need to get the webpack stats to extract the modules from webpack.
-To do this, you can use the `stats-webpack-plugin` and add this line
-to your webpack config plugins.
+You can get the state from the `renderToString` function on the server side.
 
 ```jsx
-  plugins: [
-    new StatsPlugin('stats.json')
-  ]
+import { renderToString } from 'react-router-server';
+import App from './path/to/app';
+
+renderToString(<App/>)
+  .then(({ html, state }) => {
+    // send html and state to client side
+  });
 ```
 
-<a name="client-side"></a>
-### Client Side
+<a name="webpack-usage"></a>
+### Usage with Webpack
 
-Preload the modules in your HTML file if you are using code-splitting.
-Pass the initial state and modules to your app.
+You can extract the required modules per requests when running your server to pass them to the client side.
+This allows you to preload your modules before running the client side app. To do so, you need to get the
+[stats from Webpack](https://github.com/webpack/docs/wiki/node.js-api#stats).
 
-```html
-<link rel="preload" href="/path/to/module" as="script">
+There are many ways to do this, but we recommend using the [stats-webpack-plugin](https://github.com/unindented/stats-webpack-plugin).
+Here's a code sample that you can add to your webpack config's plugins section. This will create a `stats.json` file that you can use to extract 
+the required modules for your app.
 
-<script>
-  window.__INITIAL_STATE__ = ...;
-  window.__INITIAL_MODULES__ = ...;
-</script>
+```js
+[
+  new StatsPlugin('stats.json', {
+    chunkModules: true,
+    exclude: [/node_modules/]
+  })
+]
 ```
 
-Preload the modules in your JS before rendering the app.
+To extract the modules, you can use the `extractModules` function and pass the modules provided by the `renderToString` as well as the stats
+generated by webpack. See the [code splitting usage](#code-splitting) part of this documentation to learn more on code splitting.
+
+<a name="react-router-usage"></a>
+### Usage with React Router
+
+To use with React Router v4, you can pass the `Module` component to the `Match` component of React Router.
 
 ```jsx
-import React from 'react';
-import { BrowserRouter } from 'react-router';
-import { render } from 'react-dom';
-import { preloadModules, ServerStateProvider } from 'react-router-server';
+import { Match } from 'react-router';
+import { Module } from 'react-router-server';
 
-preloadModules(__INITIAL_MODULES__).then(() => {
-  render((
-    <ServerStateProvider state={__INITIAL_STATE__}>
-      <BrowserRouter>
-        <App/>
-      </BrowserRouter>
-    </ServerStateProvider>
-  ), document.getElementById('main'));
-});
+<Match
+  exactly
+  pattern="/"
+  render={matchProps => (
+    <Module module={() => System.import('./Foo')}>
+      {module => module ? <module.default {...matchProps}/> : <div>Loading...</div>}
+    </Module>
+  )}
+/>
 ```
 
 <a name="api"></a>
 ## API
+
+<a name="extract-modules"></a>
+### extractModules
+
+`extractModules(modules, stats)`
+
+__modules__: modules provided by the renderToString method.
+
+__stats__: stats generated by webpack.
 
 <a name="fetch-state"></a>
 ### fetchState
@@ -202,36 +262,19 @@ __mapActionsToProps(actions)__: function to map the actions
 to props in your component; Currently, only the done action exists and 
 is used when you are finished fetching props.
 
-<a name="import-module"></a>
-### importModule
+<a name="module"></a>
+### Module 
 
-`importModule(name, path, systemImport)`
+The Module component allows to do code splitting. The Module component takes these propeties:
 
-__name__: Unique name of your module.
+__module__: a function that returns a System.import call. E.G. `() => System.import('./Foo')` 
 
-__path__: Path to your module relative to the current file. Same as the path in the systemImport param.
+__children__: a function. E.G. `{module => module ? <module.default/> : null}`
 
-__systemImport__: A function returning a promise with your `System.import("./path/to/your/module")` call.
+<a name="preload"></a>
+### preload
 
-<a name="import-webpack-bundle"></a>
-### importWebpackBundle 
-
-`importModule(appSystemImport, moduleSystemImport)`
-
-__systemImport__: A function returning a promise with your `System.import("./path/to/your/app.bundle")` call.
-
-__moduleSystemImport__: A function returning a promise with your `System.import("./path/to/your/0.module.bundle")` call. E.G. `(path) => System.import('./' + path)`
-
-<a name="match"></a>
-### Match 
-
-The Match component is the same as the react-router Match component but 
-can be used for async render methods.
-
-<a name="preload-modules"></a>
-### preloadModules
-
-`preloadModules(modules)`
+`preload(modules)`
 
 __modules__: array of modules passed by the server side to the client side
 for preloading.
@@ -241,67 +284,23 @@ for preloading.
 
 Async version of ReactDOM.renderToString.
 
-```renderToString(element, context)```
+```renderToString(element)```
 
 __element__: The element to render
 
-__context__: The server context.
+Returns an object ({ html, state, modules }) with:
+
+__html__: the rendered HTML
+
+__state__: the app state provided by fetch state
+
+__modules__: the app modules provided by code splitting
 
 <a name="server-state-provider"></a>
 ### ServerStateProvider
 
 The ServerStateProvider component is used for providing the server state 
 to the client side. Provided by the `state` prop.
-
-<a name="webpack"></a>
-## Webpack Bundle Support
-
-Server Side Rendering (SSR) is nice, but your app is probably complicated and 
-uses Webpack loaders to load CSS or other types of files. Traditionally, 
-this has always been complicated for SSR because those Webpack loaders are 
-not supported by NodeJS. 
-
-To work around this limitation, you can import your Webpack bundle directly 
-into your React Router Server application and do SSR on the bundle instead 
-of importing the unbundled files. 
-
-To do this, you will need to create a bundle for the server app and a bundle 
-for the client app, you will need the Webpack stats on both of them to cross 
-reference the modules, as they won't be the same for the server and the client.
-
-To bundle your app for node, use the `target: node` option in your 
-webpack config. For more information, checkout the 
-[webpack docs](https://webpack.github.io/docs/configuration.html#target).
-
-Here's a simple example of how this works:
-
-```jsx
-import { ServerRouter, createServerRenderContext } from 'react-router';
-import { renderToString } from 'react-router-server';
-import serverStats from './stats/server.json';
-import clientStats from './stats/client.json';
-import App from './app.bundle';
-
-const context = createServerRenderContext();
-renderToString(
-    <ServerRouter
-      location={'/current/path/' /* provide the request url */}
-      context={context}
-    >
-      <App/>
-    </ServerRouter>
-)
-  .then(html => {
-    const result = context.getResult();
-    const initialState = context.getInitialState();
-    const modules = context.getModules(serverStats, clientStats); // you need to provide stats for the server bundle and the client bundle
-    
-    // send data to client, with the initial state and preloading the modules
-  })
-```
-
-To use `System.import` in your server script, take a look at the `babel-plugin-system-import-transformer`
-Babel plugin.
 
 <a name="contributing"></a>
 ## Contributing

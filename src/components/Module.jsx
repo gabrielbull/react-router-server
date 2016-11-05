@@ -55,7 +55,7 @@ class Module extends React.Component {
   render() {
     const { children } = this.props;
     const { module } = this.state;
-    return module ? children(module) : null;
+    return children(module);
   }
 }
 

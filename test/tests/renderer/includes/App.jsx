@@ -4,7 +4,7 @@ import Module from '../../../../src/components/Module';
 const App = (props) => (
   <div>
     <Module name="foo" module={() => System.import('./Foo')}>
-      { module => <module.default/>}
+      { module => module ? <module.default/> : null}
     </Module>
   </div>
 );
