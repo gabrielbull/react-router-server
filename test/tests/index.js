@@ -1,22 +1,18 @@
-/*import { expect } from 'chai';
+import { expect } from 'chai';
 import {
+  extractModules,
   fetchState,
-  importModule,
-  Match,
-  preloadModules,
+  Module,
   renderToString,
-  ServerStateProvider,
-  importWebpackBundle
+  ServerStateProvider
 } from '../../src/index';
 
 describe('index', () => {
   it('should be exported', () => {
+    expect(extractModules).to.exist;
     expect(fetchState).to.exist;
-    expect(importModule).to.exist;
-    expect(Match).to.exist;
-    expect(preloadModules).to.exist;
+    expect(Module).to.exist;
     expect(renderToString).to.exist;
     expect(ServerStateProvider).to.exist;
   });
 });
-*/

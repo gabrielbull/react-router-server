@@ -12,7 +12,7 @@ const renderPass = (context, element) => {
   );
 
   if (context.fetchingStates <= 0 && context.modulesLoading <= 0) {
-    context.resolve(result);
+    context.resolve({ html: result, state: context.fetchStateResults, modules: context.modules });
   }
 };
 

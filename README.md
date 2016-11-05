@@ -10,27 +10,27 @@
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/gabrielbull/react-router-server?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 Server Side Rendering library for React Router v4. Allows to do 
-code-splitting using webpack and to fetch data. Renders the page on 
+code-splitting and to fetch data. Renders the page on 
 the server side and resolves all issues with mounting on the client side.
 
 ## Table Of Content
 
 1. [Installation](#installation)
-2. [Example](#example)
+2. [Examples](#example)
+  * Simple Example
+  * Complex Example
 3. [Usage](#usage)
-    * [Loading code splitted module](#loading-code-splitted-module)
-    * [Loading props on the server side](#loading-props-on-the-server-side)    
-    * [Server Side](#server-side)    
-    * [Client Side](#client-side)    
+  * Code Splitting
+  * Fetch State
+  * Usage with Webpack
+  * Usage with React Router
 4. [API](#api)
+    * [extractModules](#extract-modules)
     * [fetchState](#fetch-state)
-    * [importModule](#import-module)
-    * [importWebpackBundle](#import-webpack-bundle)
-    * [Match](#match)
-    * [preloadModules](#preload-modules)
+    * [Module](#module)
+    * [preload](#preload)
     * [renderToString](#render-to-string)
     * [ServerStateProvider](#server-state-provider)
-5. [Webpack Bundle Support](#webpack)
 6. [Contributing](#contributing)
 7. [License](#license)
 

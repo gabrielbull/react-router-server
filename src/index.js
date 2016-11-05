@@ -1,3 +1,4 @@
+export { default as extractModules } from './stats/extractModules';
 export { default as fetchState } from './components/fetchState';
 export { default as Module } from './components/Module';
 //export { default as preloadModules } from './preloadModules';
