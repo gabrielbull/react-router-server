@@ -42,12 +42,13 @@ export default (mapStateToProps, mapActionsToProps) => WrappedComponent =>{
           this.setState({ ...asyncRenderer.getFetchStateResult(this.index) });
         }
       } else if (serverState) {
-        // todo: client side
-        //this.idx = this.context.serverState.getAsyncMountIdx(this.context.reactRouterServerFetchStateParentId);
-        //const state = this.context.serverState.getState(this.idx);
-        //if (state) {
-          //this.setState({ ...state });
-        //}
+        this.index = serverState.getFetchStateIndex(parentIndex);
+        const state = serverState.getState(this.index);
+        if (state) {
+          if (this._componentIsMounted) {
+            this.setState({ ...state });
+          }
+        }
       }
     }
 

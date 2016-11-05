@@ -10,19 +10,20 @@ class ServerStateProvider extends Component {
     reactRouterServerServerState: PropTypes.object
   };
 
-  asyncMountIdx = 0;
-  asyncMountChildrenIdx = {};
+  fetchStateIndex = 0;
+  fetchStateChildrenIndex = {};
 
   getChildContext() {
     return {
       reactRouterServerServerState: {
         getState: this.getState,
-        getAsyncMountIdx: this.getAsyncMountIdx
+        getFetchStateIndex: this.getFetchStateIndex
       }
     };
   }
 
   getState = (idx) => {
+    console.log(this.props.state);
     if (this.props.state && this.props.state[idx]) {
       const state = this.props.state[idx];
       delete this.props.state[idx];
@@ -31,14 +32,14 @@ class ServerStateProvider extends Component {
     return {};
   };
 
-  getAsyncMountIdx = (parentIndex) => {
+  getFetchStateIndex = (parentIndex) => {
     if (typeof parentIndex !== 'undefined' && parentIndex !== undefined && parentIndex !== null) {
-      if (!this.asyncMountChildrenIdx[parentIndex]) this.asyncMountChildrenIdx[parentIndex] = 1;
-      else this.asyncMountChildrenIdx[parentIndex] = this.asyncMountChildrenIdx[parentIndex] + 1;
-      return parentIndex + '.' + this.asyncMountChildrenIdx[parentIndex];
+      if (!this.fetchStateChildrenIndex[parentIndex]) this.fetchStateChildrenIndex[parentIndex] = 1;
+      else this.fetchStateChildrenIndex[parentIndex] = this.fetchStateChildrenIndex[parentIndex] + 1;
+      return parentIndex + '.' + this.fetchStateChildrenIndex[parentIndex];
     }
-    this.asyncMountIdx = this.asyncMountIdx + 1;
-    return this.asyncMountIdx + '';
+    this.fetchStateIndex = this.fetchStateIndex + 1;
+    return this.fetchStateIndex + '';
   };
 
   render() {
