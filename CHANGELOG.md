@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.5.1 (November 5th, 2016)
+
+- Fixed bug that would update an unmounted component 
+
 ## 0.5.0 (November 3rd, 2016)
 
 - Added support for Node 7
