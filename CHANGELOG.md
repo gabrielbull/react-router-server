@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 1.0.0 (November 5th, 2016)
+
+- Simplified API
+- Replaced importModule by Module component for code splitting
+- Added extractModules to extract modules from webpack stats
+- Renamed preloadModules to preload
+- Removed the custom Match component
+- Removed the importWebpackBundle function
+ 
 ## 0.5.1 (November 5th, 2016)
 
 - Fixed bug that would update an unmounted component 
