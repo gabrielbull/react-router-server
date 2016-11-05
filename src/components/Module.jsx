@@ -23,6 +23,9 @@ class Module extends React.Component {
     this._componentIsMounted = true;
     if (exists(module, this.props.module)) {
       const { info, loadedModule } = fetch(module, this.props.module);
+      if (reactRouterServerAsyncRenderer) {
+        reactRouterServerAsyncRenderer.finishLoadingModule(info, loadedModule);
+      }
       this.setState({ module: loadedModule });
     } else {
       if (reactRouterServerAsyncRenderer) reactRouterServerAsyncRenderer.startLoadingModule();

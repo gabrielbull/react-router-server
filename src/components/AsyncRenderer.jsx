@@ -11,6 +11,8 @@ class AsyncRenderer extends React.Component {
 
   fetchStateResults = {};
   fetchStateHasFinished = {};
+  finishedLoadingModules = true;
+
   constructor(props) {
     super();
     if (props.context.fetchStateResults) {
@@ -20,7 +22,6 @@ class AsyncRenderer extends React.Component {
           this.fetchStateHasFinished[prop] = true;
         }
       }
-
     }
   }
 
@@ -53,13 +54,14 @@ class AsyncRenderer extends React.Component {
     this.fetchStateResults[index] = result;
 
     this.props.context.fetchingStates--;
-    if (this.props.context.fetchingStates <= 0 && this.props.context.modulesLoading <= 0) {
+    if (this.props.context.fetchingStates <= 0 && this.props.context.modulesLoading <= 0 && this.props.context.statesRenderPass) {
       this.props.context.fetchStateResults = this.fetchStateResults;
       this.props.context.callback();
     }
   };
 
   startLoadingModule = () => {
+    this.props.context.finishedLoadingModules = false;
     if (this.props.context.modulesLoading === undefined) this.props.context.modulesLoading = 1;
     else this.props.context.modulesLoading++;
   };
@@ -69,7 +71,8 @@ class AsyncRenderer extends React.Component {
     if (this.props.context.modules === undefined) this.props.context.modules = [];
     this.props.context.modules.push({ info, module });
 
-    if (this.props.context.fetchingStates <= 0 && this.props.context.modulesLoading <= 0) {
+    if (this.props.context.modulesLoading <= 0 && !this.props.context.finishedLoadingModules) {
+      this.props.context.finishedLoadingModules = true;
       this.props.context.callback();
     }
   };

@@ -1,19 +1,33 @@
 import * as React from 'react';
 import { renderToString } from 'react-dom/server';
 import AsyncRenderer from '../components/AsyncRenderer';
+import removeDuplicateModules from '../utils/removeDuplicateModules';
 
 const renderPass = (context, element) => {
-  context.callback = () => renderPass(context, element);
+  context.callback = () => {
+    if (context.finishedLoadingModules && !context.statesRenderPass) {
+      context.statesRenderPass = true;
+      context.renderResult = renderPass(context, element);
+      if (context.fetchingStates <= 0 && context.modulesLoading <= 0) {
+        context.resolve({ html: context.renderResult, state: context.fetchStateResults, modules: context.modules });
+      }
+    } else if (context.finishedLoadingModules && context.statesRenderPass) {
+      context.renderResult = renderPass(context, element);
+      if (context.fetchingStates <= 0 && context.modulesLoading <= 0) {
+        context.resolve({
+          html: context.renderResult,
+          state: context.fetchStateResults,
+          modules: removeDuplicateModules(context.modules)
+        });
+      }
+    }
+  };
 
-  const result = renderToString(
+  return renderToString(
     <AsyncRenderer context={context}>
       {element}
     </AsyncRenderer>
   );
-
-  if (context.fetchingStates <= 0 && context.modulesLoading <= 0) {
-    context.resolve({ html: result, state: context.fetchStateResults, modules: context.modules });
-  }
 };
 
 export default (element) => {

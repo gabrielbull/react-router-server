@@ -10,7 +10,14 @@ describe('renderToString', () => {
         expect(html).to.match(/foobar/);
         expect(state).to.deep.equal({ '1': { message: 'foobar' }});
         expect(modules).to.have.lengthOf(1);
-        done();
+
+        renderToString(<App/>)
+          .then(({ html, state, modules }) => {
+            expect(html).to.match(/foobar/);
+            expect(state).to.deep.equal({ '1': { message: 'foobar' }});
+            expect(modules).to.have.lengthOf(1);
+            done();
+          })
       })
   });
 });

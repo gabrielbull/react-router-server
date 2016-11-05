@@ -8,5 +8,8 @@ function extractModule(module, stats) {
 
 export default (modules, stats) => {
   validateStats(stats);
-  return modules.map(module => extractModule(module, stats));
+  if (modules && Object.prototype.toString.call(modules) === '[object Array]') {
+    return modules.map(module => extractModule(module, stats));
+  }
+  return [];
 };
