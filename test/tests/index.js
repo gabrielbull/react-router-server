@@ -3,6 +3,7 @@ import {
   extractModules,
   fetchState,
   Module,
+  preload,
   renderToString,
   ServerStateProvider
 } from '../../src/index';
@@ -12,6 +13,7 @@ describe('index', () => {
     expect(extractModules).to.exist;
     expect(fetchState).to.exist;
     expect(Module).to.exist;
+    expect(preload).to.exist;
     expect(renderToString).to.exist;
     expect(ServerStateProvider).to.exist;
   });
