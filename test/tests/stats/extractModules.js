@@ -14,7 +14,7 @@ describe('stats', () => {
             .then(({ modules }) => {
               const extractedModules = extractModules(modules, stats);
               expect(extractedModules[0]).to.have.property('id', 0);
-              expect(extractedModules[0]).to.have.property('hash');
+              expect(extractedModules[0]).to.have.property('files');
               done();
             })
         });

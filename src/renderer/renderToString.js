@@ -9,7 +9,11 @@ const renderPass = (context, element) => {
       context.statesRenderPass = true;
       context.renderResult = renderPass(context, element);
       if (context.fetchingStates <= 0 && context.modulesLoading <= 0) {
-        context.resolve({ html: context.renderResult, state: context.fetchStateResults, modules: context.modules });
+        context.resolve({
+          html: context.renderResult,
+          state: context.fetchStateResults,
+          modules: removeDuplicateModules(context.modules)
+        });
       }
     } else if (context.finishedLoadingModules && context.statesRenderPass) {
       context.renderResult = renderPass(context, element);

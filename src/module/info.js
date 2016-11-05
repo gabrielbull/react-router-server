@@ -1,31 +1,6 @@
 import dirname from '../utils/dirname';
 import join from '../utils/join';
 
-/* @deprecated export const extractModuleList = () => {
-  const traversed = {};
-  const finalModules = [];
-
-  function traverse(module) {
-    if (!traversed[module.id]) {
-      traversed[module.id] = true;
-      finalModules.push({
-        id: module.id,
-        filename: module.filename,
-        loaded: module.loaded,
-      });
-      if (module.parent && !traversed[module.parent.id]) traverse(module.parent);
-      if (module.children) {
-        module.children.forEach(module => {
-          if (!traversed[module.id]) traverse(module);
-        })
-      }
-    }
-  }
-
-  traverse(module);
-  return finalModules;
-};*/
-
 export const isWebpack = loadFunc => {
   return loadFunc.match(/\/\* System\.import \*\/\(([^\)]*)\)/) ? true : false;
 };

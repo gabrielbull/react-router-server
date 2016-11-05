@@ -2,7 +2,7 @@ import { isWebpack, getWebpackId } from './info';
 
 let pool = {};
 const signature = (module, systemImport) => {
-  const loadFunc =systemImport.toString();
+  const loadFunc = systemImport.toString();
   if (isWebpack(loadFunc)) {
     return getWebpackId(loadFunc);
   }
