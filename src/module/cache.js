@@ -8,7 +8,18 @@ const signature = (module, systemImport) => {
   }
   return (`${module.parent.id}_${systemImport.toString()}`).replace(/[\(\)]/g, '_').replace(/[^0-9a-zA-Z\/_\\]/g, '');
 }
-export const add = (module, systemImport, result) => pool[signature(module, systemImport)] = result;
-export const fetch = (module, systemImport) => pool[signature(module, systemImport)];
-export const exists = (module, systemImport) => pool[signature(module, systemImport)] !== undefined;
+export const add = (module, systemImport, result) => {
+  const key = signature(module, systemImport);
+  if (key !== null) pool[key] = result;
+}
+export const fetch = (module, systemImport) => {
+  const key = signature(module, systemImport);
+  if (key !== null) return pool[key];
+  return null;
+}
+export const exists = (module, systemImport) => {
+  const key = signature(module, systemImport);
+  if (key !== null) pool[signature(module, systemImport)] !== undefined;
+  return false;
+}
 export const all = () => pool;

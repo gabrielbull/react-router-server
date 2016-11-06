@@ -3,8 +3,16 @@ import { getWebpackId } from './info';
 const pool = {};
 
 const signature = (module, systemImport) => getWebpackId(systemImport.toString());
-export const fetch = (module, systemImport) => pool[signature(module, systemImport)];
-export const exists = (module, systemImport) => pool[signature(module, systemImport)] !== undefined;
+export const fetch = (module, systemImport) => {
+  const key = signature(module, systemImport);
+  if (key !== null) return pool[key];
+  return null;
+}
+export const exists = (module, systemImport) => {
+  const key = signature(module, systemImport);
+  if (key !== null) return pool[key] !== undefined;
+  return false;
+}
 
 const loadScript = url => {
   return new Promise(resolve => {

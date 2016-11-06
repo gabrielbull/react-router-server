@@ -11,7 +11,7 @@ export const isSystemImportTransformer = loadFunc => {
 
 export const getWebpackId = loadFunc => {
   const matches = loadFunc.match(/\/\* System\.import \*\/\(([^\)]*)\)/);
-  return matches[1];
+  return matches && matches[1] ? matches[1] : null;
 };
 
 export const infoFromWebpack = loadFunc => ({
