@@ -1,7 +1,7 @@
 {
   "name": "react-router-server",
   "author": "Gabriel Bull",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Server Side Rendering library for React Router v4",
   "main": "./build/index.js",
   "keywords": [
@@ -19,7 +19,7 @@
   },
   "scripts": {
     "eslint": "eslint ./src",
-    "prebuild": "npm run eslint && npm run test",
+    "prebuild": "npm run eslint && npm run test && del build",
     "build": "babel ./src --out-dir ./build",
     "build-publish": "npm run build && npm publish",
     "test": "mocha test"
@@ -41,6 +41,7 @@
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-0": "^6.16.0",
     "chai": "^3.5.0",
+    "del-cli": "^0.2.0",
     "ejs": "^2.5.2",
     "eslint": "^3.9.1",
     "eslint-plugin-import": "^2.1.0",

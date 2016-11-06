@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.3 (November 6th, 2016)
+
+- Improved build process
+
 ## 1.0.2 (November 6th, 2016)
 
 - Fixed issue with the preload method that receives non array parameters
