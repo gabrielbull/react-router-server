@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.1.0 (November 6th, 2016)
+
+- Fixed issue with webpack import with no module id
+- Fixed issue with modules and states not being passed on second render
+
 ## 1.0.5 (November 6th, 2016)
 
 - Fixed problem with rendering pages that do not have modules or states
