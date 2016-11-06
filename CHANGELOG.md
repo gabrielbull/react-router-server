@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.2 (November 6th, 2016)
+
+- Fixed issue with the preload method that receives non array parameters
+
 ## 1.0.1 (November 5th, 2016)
 
 - Removed debug code

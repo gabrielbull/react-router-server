@@ -83,6 +83,14 @@ const loadWebpackModules = (modules) => {
 
 export default (modules) => {
   return new Promise((resolve) => {
+    if (
+      typeof modules !== 'object' ||
+      Object.prototype.toString.call(modules) !== '[object Array]' ||
+      modules.length < 1
+    ) {
+      return resolve([]);
+    }
+
     fetchModuleInformation(modules)
       .then(loadWebpackModules)
       .then(resolve)
