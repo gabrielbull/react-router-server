@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.4 (November 6th, 2016)
+
+- Removed unused files from dist
+
 ## 1.0.3 (November 6th, 2016)
 
 - Improved build process

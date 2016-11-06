@@ -12,3 +12,6 @@
 /npm-debug.log
 /src
 /react-router-server.svg
+/.vscode
+/copy.sh
+/yarn.lock
