@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.5 (November 6th, 2016)
+
+- Fixed problem with rendering pages that do not have modules or states
+
 ## 1.0.4 (November 6th, 2016)
 
 - Removed unused files from dist

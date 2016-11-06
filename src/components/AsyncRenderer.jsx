@@ -45,6 +45,7 @@ class AsyncRenderer extends React.Component {
   getFetchStateResult = index => this.fetchStateResults[index];
 
   startFetchState = () => {
+    this.props.context.hasStates = true;
     if (this.props.context.fetchingStates === undefined) this.props.context.fetchingStates = 1;
     else this.props.context.fetchingStates++;
   };
@@ -61,6 +62,7 @@ class AsyncRenderer extends React.Component {
   };
 
   startLoadingModule = () => {
+    this.props.context.hasModules = true;
     this.props.context.finishedLoadingModules = false;
     if (this.props.context.modulesLoading === undefined) this.props.context.modulesLoading = 1;
     else this.props.context.modulesLoading++;

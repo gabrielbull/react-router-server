@@ -27,11 +27,20 @@ const renderPass = (context, element) => {
     }
   };
 
-  return renderToString(
+  const result = renderToString(
     <AsyncRenderer context={context}>
       {element}
     </AsyncRenderer>
   );
+
+  if (!context.hasModules && !context.hasStates) {
+    context.resolve({
+      html: result,
+      state: null,
+      modules: null
+    });
+  }
+  return result;
 };
 
 export default (element) => {
