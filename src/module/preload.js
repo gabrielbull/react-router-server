@@ -3,8 +3,15 @@ import { getWebpackId } from './info';
 const pool = {};
 
 const signature = (module, systemImport) => getWebpackId(systemImport.toString());
-export const fetch = (module, systemImport) => pool[signature(module, systemImport)];
-export const exists = (module, systemImport) => pool[signature(module, systemImport)] !== undefined;
+export const fetch = (module, systemImport) => {
+  const key = signature(module, systemImport);
+  if (key !== null && typeof pool[key] !== 'undefined') return pool[key];
+  return null;
+}
+export const exists = (module, systemImport) => {
+  const key = signature(module, systemImport);
+  return key !== null && typeof pool[key] !== 'undefined';
+}
 
 const loadScript = url => {
   return new Promise(resolve => {
@@ -40,7 +47,9 @@ const fetchModuleInformation = modules => {
       for (let prop in modules) {
         if (modules.hasOwnProperty(prop)) {
           index++;
-          finalModules[ids[index]] = prop;
+          if (typeof ids[index] !== 'undefined') {
+            finalModules[ids[index]] = prop;
+          }
         }
       }
       if (fileLoading === 0) {
