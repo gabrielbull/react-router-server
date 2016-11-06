@@ -11,8 +11,8 @@ const renderPass = (context, element) => {
       if (context.fetchingStates <= 0 && context.modulesLoading <= 0) {
         context.resolve({
           html: context.renderResult,
-          state: context.fetchStateResults,
-          modules: removeDuplicateModules(context.modules)
+          state: context.fetchStateResults === undefined ? null : context.fetchStateResults,
+          modules: context.modules === undefined ? null : removeDuplicateModules(context.modules)
         });
       }
     } else if (context.finishedLoadingModules && context.statesRenderPass) {
@@ -20,8 +20,8 @@ const renderPass = (context, element) => {
       if (context.fetchingStates <= 0 && context.modulesLoading <= 0) {
         context.resolve({
           html: context.renderResult,
-          state: context.fetchStateResults,
-          modules: removeDuplicateModules(context.modules)
+          state: context.fetchStateResults === undefined ? null : context.fetchStateResults,
+          modules: context.modules === undefined ? null : removeDuplicateModules(context.modules)
         });
       }
     }
@@ -36,8 +36,8 @@ const renderPass = (context, element) => {
   if (!context.hasModules && !context.hasStates) {
     context.resolve({
       html: result,
-      state: null,
-      modules: null
+      state: context.fetchStateResults === undefined ? null : context.fetchStateResults,
+      modules: context.modules === undefined ? null : removeDuplicateModules(context.modules)
     });
   }
   return result;
