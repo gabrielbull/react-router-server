@@ -2,7 +2,10 @@ import dirname from '../utils/dirname';
 import join from '../utils/join';
 
 export const isWebpack = loadFunc => {
-  return loadFunc.match(/\/\* System\.import \*\/\(([^\)]*)\)/) ? true : false;
+  return (
+    loadFunc.match(/\/\* System\.import \*\/\(([^\)]*)\)/) ||
+    loadFunc.match(/function[^}]*return[^}]*[a-zA-Z]\.[a-zA-Z]\([0-9]*\)\.then\([a-zA-Z]\.bind\(null,[0-9]*\)/)
+  ) ? true : false;
 };
 
 export const isSystemImportTransformer = loadFunc => {
@@ -10,7 +13,11 @@ export const isSystemImportTransformer = loadFunc => {
 };
 
 export const getWebpackId = loadFunc => {
-  const matches = loadFunc.match(/\/\* System\.import \*\/\(([^\)]*)\)/);
+  let matches = loadFunc.match(/\/\* System\.import \*\/\(([^\)]*)\)/);
+  if (typeof matches === 'object' && matches !== null && typeof matches[1] !== 'undefined') {
+    return matches[1];
+  }
+  matches = loadFunc.match(/function[^}]*return[^}]*[a-zA-Z]\.[a-zA-Z]\(([0-9]*)\)\.then\([a-zA-Z]\.bind\(null,[0-9]*\)/)
   if (typeof matches === 'object' && matches !== null && typeof matches[1] !== 'undefined') {
     return matches[1];
   }
