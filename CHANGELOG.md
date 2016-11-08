@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.1.1 (November 7th, 2016)
+
+- Fixed issue with webpack production mode
+
 ## 1.1.0 (November 6th, 2016)
 
 - Fixed issue with webpack import with no module id
