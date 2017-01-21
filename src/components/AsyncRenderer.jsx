@@ -55,7 +55,7 @@ class AsyncRenderer extends React.Component {
     this.fetchStateResults[index] = result;
 
     this.props.context.fetchingStates--;
-    if (this.props.context.fetchingStates <= 0 && this.props.context.modulesLoading <= 0 && this.props.context.statesRenderPass) {
+    if (this.props.context.fetchingStates <= 0 && this.props.context.modulesLoading <= 0 && (!this.props.context.hasModules || this.props.context.statesRenderPass)) {
       this.props.context.fetchStateResults = this.fetchStateResults;
       this.props.context.callback();
     }

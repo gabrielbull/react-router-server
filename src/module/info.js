@@ -30,7 +30,7 @@ export const getWebpackId = loadFunc => {
   if (typeof matches === 'object' && matches !== null && typeof matches[1] !== 'undefined') {
     return matches[1];
   }
-   return null;
+  return null;
 };
 
 export const infoFromWebpack = loadFunc => ({
