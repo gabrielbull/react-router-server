@@ -4,7 +4,10 @@ import join from '../utils/join';
 export const isWebpack = loadFunc => {
   return (
     loadFunc.match(/\/\* System\.import \*\/\(([^\)]*)\)/) ||
-    loadFunc.match(/function[^}]*return[^}]*[a-zA-Z]\.[a-zA-Z]\([0-9]*\)\.then\([a-zA-Z]\.bind\(null,[0-9]*\)/)
+    // webpack minimized
+    loadFunc.match(/function[^}]*return[^}]*[a-zA-Z]\.[a-zA-Z]\([0-9]*\)\.then\([a-zA-Z]\.bind\(null, ?[0-9]*\)/) ||
+    // webpack normal
+    loadFunc.match(/__webpack_require__/)
   ) ? true : false;
 };
 
@@ -17,11 +20,17 @@ export const getWebpackId = loadFunc => {
   if (typeof matches === 'object' && matches !== null && typeof matches[1] !== 'undefined') {
     return matches[1];
   }
-  matches = loadFunc.match(/function[^}]*return[^}]*[a-zA-Z]\.[a-zA-Z]\(([0-9]*)\)\.then\([a-zA-Z]\.bind\(null,[0-9]*\)/)
+  // webpack minimized
+  matches = loadFunc.match(/function[^}]*return[^}]*[a-zA-Z]\.[a-zA-Z]\(([0-9]*)\)\.then\([a-zA-Z]\.bind\(null, ?[0-9]*\)/);
   if (typeof matches === 'object' && matches !== null && typeof matches[1] !== 'undefined') {
     return matches[1];
   }
-  return null;
+  // webpack normal
+  matches = loadFunc.match(/function[^}]*return[^}]*\(([0-9]*)\).then/);
+  if (typeof matches === 'object' && matches !== null && typeof matches[1] !== 'undefined') {
+    return matches[1];
+  }
+   return null;
 };
 
 export const infoFromWebpack = loadFunc => ({

@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.1.2 (January 21st, 2017)
+
+- Added support for Webpack 2.2
+
 ## 1.1.1 (November 7th, 2016)
 
 - Fixed issue with webpack production mode
