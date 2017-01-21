@@ -1,5 +1,10 @@
 # CHANGELOG
 
+# 2.0.0 (January 21st, 2017)
+
+- Fixed issue with render not resolving
+- Added renderToStaticMarkup method
+
 ## 1.1.2 (January 21st, 2017)
 
 - Added support for Webpack 2.2

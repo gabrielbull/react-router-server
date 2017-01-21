@@ -7,6 +7,6 @@ export default (element) => {
       modulesLoading: 0,
       fetchingStates: 0
     };
-    renderPass(context, element);
+    renderPass(context, element, true);
   });
 };

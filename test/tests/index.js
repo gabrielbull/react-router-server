@@ -5,6 +5,7 @@ import {
   Module,
   preload,
   renderToString,
+  renderToStaticMarkup,
   ServerStateProvider
 } from '../../src/index';
 
@@ -15,6 +16,7 @@ describe('index', () => {
     expect(Module).to.exist;
     expect(preload).to.exist;
     expect(renderToString).to.exist;
+    expect(renderToStaticMarkup).to.exist;
     expect(ServerStateProvider).to.exist;
   });
 });
