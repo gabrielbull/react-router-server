@@ -5,12 +5,16 @@
   "description": "Server Side Rendering library for React Router v4",
   "main": "./build/index.js",
   "keywords": [
+    "code-splitting",
     "react",
     "react-component",
     "react-router",
+    "reactjs",
     "server",
     "server side rendering",
-    "async"
+    "ssr",
+    "webpack",
+    "webpack2"
   ],
   "license": "MIT",
   "repository": {
