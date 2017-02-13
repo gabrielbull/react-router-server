@@ -1,5 +1,9 @@
 # CHANGELOG
 
+# 2.1.0 (February 12th, 2017)
+
+- Added support for react-router beta and release
+
 # 2.0.0 (January 21st, 2017)
 
 - Fixed issue with render not resolving

@@ -1,7 +1,7 @@
 {
   "name": "react-router-server",
   "author": "Gabriel Bull",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Server Side Rendering library for React Router v4",
   "main": "./build/index.js",
   "keywords": [
@@ -25,9 +25,9 @@
     "test": "mocha test"
   },
   "peerDependencies": {
-    "react": "^15.3.2",
-    "react-dom": "^15.3.2",
-    "react-router": "^4.0.0-alpha.6"
+    "react": "^15.3",
+    "react-dom": "^15.3",
+    "react-router": "^4.0.0-beta || ^4.0"
   },
   "devDependencies": {
     "babel-cli": "^6.22.2",
@@ -41,7 +41,7 @@
     "babel-preset-stage-0": "^6.22.0",
     "chai": "^3.5.0",
     "del-cli": "^0.2.1",
-    "eslint": "^3.14.1",
+    "eslint": "^3.15.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-react": "^6.9.0",
     "mocha": "^3.2.0",
