@@ -1,13 +1,11 @@
-# ![React Router Server](https://rawgit.com/gabrielbull/react-router-server/master/react-router-server.svg "React Router Server")
+<p align="center"><img width="460"src="https://rawgit.com/gabrielbull/react-router-server/master/react-router-server.svg" alt="React Router Server"></p>
 
-[![Build Status](https://travis-ci.org/gabrielbull/react-router-server.svg?branch=master)](https://travis-ci.org/gabrielbull/react-router-server)
-[![Code Climate](https://codeclimate.com/github/gabrielbull/react-router-server/badges/gpa.svg)](https://codeclimate.com/github/gabrielbull/react-router-server)
-[![Dependency Status](https://david-dm.org/gabrielbull/react-router-server.svg)](https://david-dm.org/gabrielbull/react-router-server)
-[![peerDependency Status](https://david-dm.org/gabrielbull/react-router-server/peer-status.svg)](https://david-dm.org/gabrielbull/react-router-server#info=peerDependencies)
-[![devDependency Status](https://david-dm.org/gabrielbull/react-router-server/dev-status.svg)](https://david-dm.org/gabrielbull/react-router-server#info=devDependencies)
-[![npm downloads](http://img.shields.io/npm/dt/react-router-server.svg)](https://www.npmjs.org/package/react-router-server)
-[![npm version](https://img.shields.io/npm/v/react-router-server.svg)](https://www.npmjs.org/package/react-router-server)
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/gabrielbull/react-router-server?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+<p align="center">
+  <a href="https://travis-ci.org/gabrielbull/react-router-server"><img src="https://img.shields.io/travis/gabrielbull/react-router-server.svg?style=flat-square" alt="Build Status"></a>
+  <a href="https://codeclimate.com/github/gabrielbull/react-router-server"><img src="https://img.shields.io/codeclimate/github/gabrielbull/react-router-server.svg?style=flat-square" alt="Code Climate"></a>
+  <a href="https://www.npmjs.org/package/react-router-server"><img src="https://img.shields.io/npm/v/react-router-server.svg?style=flat-square" alt="npm version"></a>
+  <a href="https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/gabrielbull/react-router-server?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge"><img src="https://img.shields.io/gitter/room/gabrielbull/react-router-server.svg?style=flat-square" alt="Gitter"></a>
+</p>
 
 Server Side Rendering library for React Router v4.
 
@@ -16,20 +14,20 @@ Server Side Rendering library for React Router v4.
 1. [About](#about)
 2. [Installation](#installation)
 3. [Examples](#examples)
-  * [Example](#complex-example)
+   - [Example](#complex-example)
 4. [Usage](#usage)
-  * [Server Side Rendering](#server-side-rendering)
-  * [Code Splitting](#code-splitting)
-  * [Fetch State](#fetch-state-usage)
-  * [Usage with Webpack](#webpack-usage)
-  * [Usage with React Router](#react-router-usage)
+   - [Server Side Rendering](#server-side-rendering)
+   - [Code Splitting](#code-splitting)
+   - [Fetch State](#fetch-state-usage)
+   - [Usage with Webpack](#webpack-usage)
+   - [Usage with React Router](#react-router-usage)
 5. [API](#api)
-  * [extractModules](#extract-modules)
-  * [fetchState](#fetch-state)
-  * [Module](#module)
-  * [preload](#preload)
-  * [renderToString](#render-to-string)
-  * [ServerStateProvider](#server-state-provider)
+   - [extractModules](#extract-modules)
+   - [fetchState](#fetch-state)
+   - [Module](#module)
+   - [preload](#preload)
+   - [renderToString](#render-to-string)
+   - [ServerStateProvider](#server-state-provider)
 6. [Contributing](#contributing)
 7. [License](#license)
 
