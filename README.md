@@ -7,7 +7,9 @@
   <a href="https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/gabrielbull/react-router-server?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge"><img src="https://img.shields.io/gitter/room/gabrielbull/react-router-server.svg?style=flat-square" alt="Gitter"></a>
 </p>
 
-Server Side Rendering library for React Router v4.
+<p align="center">
+  Server Side Rendering library for React Router v4.
+</p>
 
 ## Table Of Content
 

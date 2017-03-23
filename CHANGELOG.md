@@ -1,5 +1,9 @@
 # CHANGELOG
 
+# 4.0.0 (March 22th, 2017)
+
+- Removed support for react-router beta and cleaned up 
+
 # 2.1.0 (February 12th, 2017)
 
 - Added support for react-router beta and release
