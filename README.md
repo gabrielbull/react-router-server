@@ -221,7 +221,7 @@ To be able to use `System.import` calls on the server side, you will need to ins
 To use with React Router v4, you can pass the `Module` component to the `Route` component of React Router.
 
 ```jsx
-import { Match } from 'react-router';
+import { Route } from 'react-router';
 import { Module } from 'react-router-server';
 
 <Route
