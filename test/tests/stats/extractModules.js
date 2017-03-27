@@ -6,7 +6,7 @@ import renderToString from '../../../src/renderer/renderToString';
 import extractModules from '../../../src/stats/extractModules';
 
 describe('stats', () => {
-  it('should extract modules from webpack stats', done => {
+  it('should extract modules from webpack stats', function (done) {
     this.timeout(15000);
     webpack(webpackConfig, () => {
       Promise.all([System.import('./includes/bundle'), System.import('./includes/stats.json')])

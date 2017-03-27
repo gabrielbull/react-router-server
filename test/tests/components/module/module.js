@@ -7,7 +7,7 @@ import webpackConfig from './includes/webpack.config';
 import { exec } from 'child_process';
 
 describe('module', () => {
-  it('should load module using babel plugin', done => {
+  it('should load module using babel plugin', function(done) {
     this.timeout(15000);
     renderToStaticMarkup(
       <Module

@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import Foo from './includes/Foo';
 
 describe('fetchState', () => {
-  it('should do fetchState for component', done => {
+  it('should do fetchState for component', function(done) {
     this.timeout(15000);
     renderToStaticMarkup(<Foo/>)
       .then((result) => {

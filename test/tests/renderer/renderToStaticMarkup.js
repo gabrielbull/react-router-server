@@ -4,7 +4,7 @@ import renderToStaticMarkup from '../../../src/renderer/renderToStaticMarkup';
 import App from './includes/App';
 
 describe('renderToStaticMarkup', () => {
-  it('should do render to static markup', done => {
+  it('should do render to static markup', function (done) {
     this.timeout(15000);
     renderToStaticMarkup(<App/>)
       .then(({ html, state, modules }) => {
