@@ -218,15 +218,15 @@ To be able to use `System.import` calls on the server side, you will need to ins
 <a name="react-router-usage"></a>
 ### Usage with React Router
 
-To use with React Router v4, you can pass the `Module` component to the `Match` component of React Router.
+To use with React Router v4, you can pass the `Module` component to the `Route` component of React Router.
 
 ```jsx
 import { Match } from 'react-router';
 import { Module } from 'react-router-server';
 
-<Match
-  exactly
-  pattern="/"
+<Route
+  exact
+  path="/"
   render={matchProps => (
     <Module module={() => System.import('./Foo')}>
       {module => module ? <module.default {...matchProps}/> : <div>Loading...</div>}
