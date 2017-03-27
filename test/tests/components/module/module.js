@@ -8,6 +8,7 @@ import { exec } from 'child_process';
 
 describe('module', () => {
   it('should load module using babel plugin', done => {
+    this.timeout(15000);
     renderToStaticMarkup(
       <Module
         module={() => System.import('./includes/Foo')}

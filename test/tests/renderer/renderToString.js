@@ -5,6 +5,7 @@ import App from './includes/App';
 
 describe('renderToString', () => {
   it('should do render to string with module loaded and state fetched', done => {
+    this.timeout(15000);
     renderToString(<App/>)
       .then(({ html, state, modules }) => {
         expect(html).to.match(/foobar/);

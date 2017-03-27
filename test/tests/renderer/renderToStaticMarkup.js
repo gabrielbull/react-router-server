@@ -5,6 +5,7 @@ import App from './includes/App';
 
 describe('renderToStaticMarkup', () => {
   it('should do render to static markup', done => {
+    this.timeout(15000);
     renderToStaticMarkup(<App/>)
       .then(({ html, state, modules }) => {
         expect(html).to.equal('<div><div>foobar</div></div>');

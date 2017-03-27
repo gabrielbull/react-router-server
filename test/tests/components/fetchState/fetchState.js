@@ -5,6 +5,7 @@ import Foo from './includes/Foo';
 
 describe('fetchState', () => {
   it('should do fetchState for component', done => {
+    this.timeout(15000);
     renderToStaticMarkup(<Foo/>)
       .then((result) => {
         expect(result.html).to.equal('<div>foobar</div>');
