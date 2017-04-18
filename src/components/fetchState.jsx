@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import isNode from '../utils/isNode';
 
-export default (mapStateToProps, mapActionsToProps) => WrappedComponent =>{
+export default (mapStateToProps, mapActionsToProps) => WrappedComponent => {
   return class extends Component {
     static contextTypes = {
       reactRouterServerAsyncRenderer: () => null,

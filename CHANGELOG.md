@@ -1,8 +1,9 @@
 # CHANGELOG
 
-# 4.0.1 (...)
+# 4.0.1 (April 17th, 2017)
 
 - Made compatible with React 15.5 
+- Added typescript definitions
 
 # 4.0.0 (March 22th, 2017)
 
