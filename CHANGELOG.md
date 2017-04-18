@@ -1,5 +1,9 @@
 # CHANGELOG
 
+# 4.1.0 (April 18th, 2017)
+
+- Added exception handling in the render methods
+
 # 4.0.1 (April 17th, 2017)
 
 - Made compatible with React 15.5 
