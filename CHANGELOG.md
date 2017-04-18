@@ -1,5 +1,9 @@
 # CHANGELOG
 
+# 4.0.1 (...)
+
+- Made compatible with React 15.5 
+
 # 4.0.0 (March 22th, 2017)
 
 - Removed support for react-router beta and cleaned up 

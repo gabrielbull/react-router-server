@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { renderToString, renderToStaticMarkup } from 'react-dom/server';
 import AsyncRenderer from '../components/AsyncRenderer';
 import removeDuplicateModules from '../utils/removeDuplicateModules';

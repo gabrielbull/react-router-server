@@ -1,12 +1,12 @@
-import * as React from 'react';
+import React, { Component } from 'react';
 
-class AsyncRenderer extends React.Component {
+class AsyncRenderer extends Component {
   static propTypes = {
-    context: React.PropTypes.object.isRequired
+    context: () => null
   };
 
   static childContextTypes = {
-    reactRouterServerAsyncRenderer: React.PropTypes.object
+    reactRouterServerAsyncRenderer: () => null
   };
 
   fetchStateResults = {};

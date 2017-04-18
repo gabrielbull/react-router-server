@@ -1,11 +1,11 @@
-import * as React from 'react';
+import React, { Component } from 'react';
 import fetchState from '../../../../../src/components/fetchState';
 
 @fetchState(
   ({ message }) => ({ message }),
   ({ done }) => ({ done })
 )
-class Foo extends React.Component {
+class Foo extends Component {
   componentWillMount() {
     setTimeout(() => {
       // do something async

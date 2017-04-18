@@ -1,13 +1,13 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 
 class ServerStateProvider extends Component {
   static propTypes = {
-    state: PropTypes.object,
-    children: PropTypes.oneOfType([PropTypes.element, PropTypes.func, PropTypes.node]),
+    state: () => null,
+    children: () => null,
   };
 
   static childContextTypes = {
-    reactRouterServerServerState: PropTypes.object
+    reactRouterServerServerState: () => null
   };
 
   fetchStateIndex = 0;

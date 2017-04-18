@@ -1,16 +1,16 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import isNode from '../utils/isNode';
 
 export default (mapStateToProps, mapActionsToProps) => WrappedComponent =>{
   return class extends Component {
     static contextTypes = {
-      reactRouterServerAsyncRenderer: PropTypes.object,
-      reactRouterServerServerState: PropTypes.object,
-      reactRouterServerFetchStateParentIndex: PropTypes.string
+      reactRouterServerAsyncRenderer: () => null,
+      reactRouterServerServerState: () => null,
+      reactRouterServerFetchStateParentIndex: () => null
     };
 
     static childContextTypes = {
-      reactRouterServerFetchStateParentIndex: PropTypes.string
+      reactRouterServerFetchStateParentIndex: () => null
     };
 
     getChildContext() {
