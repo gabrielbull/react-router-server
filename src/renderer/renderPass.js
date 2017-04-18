@@ -31,13 +31,14 @@ const renderPass = (context, element, staticMarkup = false) => {
     <AsyncRenderer context={context}>
       {element}
     </AsyncRenderer>
-  )
+  );
+
   let result;
   try {
     if (staticMarkup) {
       result = renderToStaticMarkup(component);
     } else {
-      result = renderToString(component );
+      result = renderToString(component);
     }
   } catch (e) {
     return context.reject(e);
