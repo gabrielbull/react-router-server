@@ -15,7 +15,7 @@ export default (mapStateToProps, mapActionsToProps) => WrappedComponent => {
 
     getChildContext() {
       return {
-        reactRouterServerFetchStateParentIndex: this.idx
+        reactRouterServerFetchStateParentIndex: this.index
       };
     }
 
