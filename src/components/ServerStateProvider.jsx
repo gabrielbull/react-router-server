@@ -22,10 +22,10 @@ class ServerStateProvider extends Component {
     };
   }
 
-  getState = (idx) => {
-    if (this.props.state && this.props.state[idx]) {
-      const state = this.props.state[idx];
-      delete this.props.state[idx];
+  getState = (index) => {
+    if (this.props.state && this.props.state[index]) {
+      const state = this.props.state[index];
+      delete this.props.state[index];
       return state;
     }
     return {};

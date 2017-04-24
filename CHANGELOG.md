@@ -1,5 +1,9 @@
 # CHANGELOG
 
+# 4.1.1 (April 24th, 2017)
+
+- Fixed issue with fetchState
+
 # 4.1.0 (April 18th, 2017)
 
 - Added exception handling in the render methods
