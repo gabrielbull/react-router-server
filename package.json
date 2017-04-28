@@ -30,12 +30,12 @@
     "test": "mocha test"
   },
   "peerDependencies": {
-    "react": "^15.3 || ^16.0",
-    "react-dom": "^15.3 || ^16.0",
+    "react": "^15.3 || ^16.0 || ^16.0.0-alpha.11",
+    "react-dom": "^15.3 || ^16.0 || ^16.0.0-alpha.11",
     "react-router": "^4.0"
   },
   "devDependencies": {
-    "@types/react": "^15.0.22",
+    "@types/react": "^15.0.23",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.3",
@@ -53,6 +53,7 @@
     "mocha": "^3.3.0",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
+    "react-router": "^4.1.1",
     "stats-webpack-plugin": "^0.6.0",
     "webpack": "^2.4.1"
   }
