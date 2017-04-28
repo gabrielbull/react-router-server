@@ -1,5 +1,6 @@
 import dirname from '../utils/dirname';
 import join from '../utils/join';
+import caller from '../utils/caller';
 
 export const isWebpack = loadFunc => {
   return (
@@ -38,10 +39,18 @@ export const infoFromWebpack = loadFunc => ({
 });
 
 export const infoFromSystemImportTransformer = (loadFunc, module) => {
-  const matches = loadFunc.match(/require\(([^)\]]*)\)/);
-  let file = matches[1].replace(/[\('"\\]*/g, '');
+  const matches = loadFunc.match(/require\(([^)\]]*)/);
+  let file = matches[1].replace(/[\[\('"\\]*/g, '');
+  let parent;
+  try {
+    parent = caller()[0].getFileName();
+  } catch (err) {
+  }
+  if (!parent && module && typeof module.parent !== 'undefined' && typeof module.parent.filename !== 'undefined') {
+    parent = module.parent.filename;
+  }
   return {
-    filename: join(dirname(module.parent.filename), file)
+    filename: join(dirname(parent), file)
   };
 };
 

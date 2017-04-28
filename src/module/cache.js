@@ -1,9 +1,14 @@
-import { isWebpack, getWebpackId } from './info';
+import { isWebpack, getWebpackId, isSystemImportTransformer } from './info';
+import { caller, dirname, join } from '../utils';
 
 let pool = {};
 const signature = (module, systemImport) => {
   const loadFunc = systemImport.toString();
-  if (isWebpack(loadFunc)) {
+  if (isWebpack(loadFunc) && isSystemImportTransformer(loadFunc)) {
+    const parent = dirname(caller()[0].getFileName());
+    const id = getWebpackId(loadFunc);
+    return `${parent}_${id}`;
+  } else if (isWebpack(loadFunc)) {
     return getWebpackId(loadFunc);
   }
   if (typeof module === 'object' && typeof module.parent === 'object' && typeof module.parent.id !== 'undefined') {
