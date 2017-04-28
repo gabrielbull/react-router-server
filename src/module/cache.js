@@ -30,3 +30,10 @@ export const exists = (module, systemImport) => {
   return key !== null && typeof pool[key] !== 'undefined';
 }
 export const all = () => pool;
+export const clear = () => {
+  for (let prop in pool) {
+    if (pool.hasOwnProperty(prop)) {
+      delete pool[prop];
+    }
+  }
+};
