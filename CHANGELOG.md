@@ -1,5 +1,9 @@
 # CHANGELOG
 
+# 4.2.0 (April 28th, 2017)
+
+- Made compatible with new versions of React and Webpack
+
 # 4.1.1 (April 24th, 2017)
 
 - Fixed issue with fetchState
