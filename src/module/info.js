@@ -33,6 +33,11 @@ export const getWebpackId = loadFunc => {
   if (typeof matches === 'object' && matches !== null && typeof matches[1] !== 'undefined') {
     return matches[1];
   }
+  // system import
+  matches = loadFunc.match(/__webpack_require__\(\(?([0-9]*)\)?\)\)/);
+  if (typeof matches === 'object' && matches !== null && typeof matches[1] !== 'undefined') {
+    return matches[1];
+  }
   // system import minimized
   matches = loadFunc.match(/Promise\.resolve\(n\(([0-9]*)\)\)/);
   if (typeof matches === 'object' && matches !== null && typeof matches[1] !== 'undefined') {
@@ -57,7 +62,8 @@ export const infoFromSystemImportTransformer = (loadFunc, module) => {
     parent = module.parent.filename;
   }
   return {
-    filename: join(dirname(parent), file)
+    filename: join(dirname(parent), file),
+    id: getWebpackId(loadFunc)
   };
 };
 
