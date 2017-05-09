@@ -23,9 +23,11 @@
    - [Fetch State](#fetch-state-usage)
    - [Usage with Webpack](#webpack-usage)
    - [Usage with React Router](#react-router-usage)
+   - [Usage with Redux](#redux-usage)
 5. [API](#api)
    - [extractModules](#extract-modules)
    - [fetchState](#fetch-state)
+   - [withDone](#with-done)
    - [Module](#module)
    - [preload](#preload)
    - [renderToString](#render-to-string)
@@ -235,6 +237,36 @@ import { Module } from 'react-router-server';
 />
 ```
 
+<a name="redux-usage"></a>
+### Usage with Redux
+
+If you are rehydrating state with redux instead of using `ServerStateProvider`, all you need is access to the `done` action so the server can wait for async stuff to complete. In that case, you can use the `withDone` decorator, which is a shorthand for `fetchState(null, ({ done }) => ({ done }))`.
+
+```jsx
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { withDone } from 'react-router-server';
+import { setMessage } from './actions';
+
+@withDone
+@connect(state => state.message, { setMessage })
+class MyComponent extends React.Component {
+  componentWillMount() {
+    // using async actions
+    const { setMessage, done } = this.props;
+    setMessage('Hello world').then(done, done);
+  }
+
+  render() {
+    return (
+      <div>{this.props.message}</div>
+    );
+  }
+}
+```
+
+For more details on usage with redux, check [this boilerplate](https://github.com/diegohaz/arc/tree/redux-ssr).
+
 <a name="api"></a>
 ## API
 
@@ -258,6 +290,11 @@ to props in your component;
 __mapActionsToProps(actions)__: function to map the actions
 to props in your component; Currently, only the done action exists and 
 is used when you are finished fetching props.
+
+<a name="with-done"></a>
+### withDone
+
+Shorthand for `fetchState(null, ({ done }) => ({ done }))`
 
 <a name="module"></a>
 ### Module 
