@@ -1,5 +1,5 @@
 export { default as extractModules } from './stats/extractModules';
-export { default as fetchState } from './components/fetchState';
+export { default as fetchState, withDone } from './components/fetchState';
 export { default as Module } from './components/Module';
 export { default as preload } from './module/preload';
 export { default as renderToString } from './renderer/renderToString';

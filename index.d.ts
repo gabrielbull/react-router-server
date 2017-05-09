@@ -12,6 +12,8 @@ declare namespace ReactRouterServer {
 
   function fetchState<P, S>(mapStateToProps?: (state: any) => any, mapActionsToProps?: (actions: { done: (state: any) => void }) => any): Component<P, S>;
 
+  function withDone(WrappedComponent: Component): Component;
+
   interface ModuleProps {
     module: () => any;
     children?: (module: any) => any;
