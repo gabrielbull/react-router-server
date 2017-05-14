@@ -30,12 +30,12 @@
     "test": "mocha test"
   },
   "peerDependencies": {
-    "react": "^15.3 || ^16.0 || ^16.0.0-alpha.11",
-    "react-dom": "^15.3 || ^16.0 || ^16.0.0-alpha.11",
+    "react": "^15.3 || ^16.0 || ^16.0.0-alpha.12",
+    "react-dom": "^15.3 || ^16.0 || ^16.0.0-alpha.12",
     "react-router": "^4.0"
   },
   "devDependencies": {
-    "@types/react": "^15.0.23",
+    "@types/react": "^15.0.24",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.3",
@@ -46,15 +46,15 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "chai": "^3.5.0",
-    "del-cli": "^0.2.1",
+    "del-cli": "^1.0.0",
     "eslint": "^3.19.0",
     "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-react": "^6.10.3",
-    "mocha": "^3.3.0",
-    "react": "^16.0.0-alpha.11",
-    "react-dom": "^16.0.0-alpha.11",
+    "eslint-plugin-react": "^7.0.1",
+    "mocha": "^3.4.1",
+    "react": "^16.0.0-alpha.12",
+    "react-dom": "^16.0.0-alpha.12",
     "react-router": "^4.1.1",
     "stats-webpack-plugin": "^0.6.0",
-    "webpack": "^2.4.1"
+    "webpack": "^2.5.1"
   }
 }
