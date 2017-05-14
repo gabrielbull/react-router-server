@@ -1,5 +1,9 @@
 # CHANGELOG
 
+# 4.2.1 (May 14th, 2017)
+
+- Added withDone decorator and Redux example
+
 # 4.2.0 (April 28th, 2017)
 
 - Made compatible with new versions of React and Webpack
