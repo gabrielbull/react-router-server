@@ -21,28 +21,25 @@ class Module extends Component {
   componentWillMount() {
     const { reactRouterServerAsyncRenderer } = this.context;
     this._componentIsMounted = true;
-
-    if (!isNode() && preloadExists(module, this.props.module)) {
-      if (this._componentIsMounted) {
-        this.setState({ module: preloadFetch(module, this.props.module) });
+    if (isNode()) {
+      if (exists(module, this.props.module)) {
+        const { info, loadedModule } = fetch(module, this.props.module);
+        if (reactRouterServerAsyncRenderer) reactRouterServerAsyncRenderer.finishLoadingModule(info, loadedModule);
+        this.setState({ module: loadedModule });
+      } else {
+        if (reactRouterServerAsyncRenderer) reactRouterServerAsyncRenderer.startLoadingModule();
+        load(module, this.props.module)(this.props.module())
+          .then(({ info, module: loadedModule }) => {
+            add(module, this.props.module, { info, loadedModule });
+            if (reactRouterServerAsyncRenderer) reactRouterServerAsyncRenderer.finishLoadingModule(info, loadedModule);
+          });
       }
-    } else if (exists(module, this.props.module)) {
-      const { info, loadedModule } = fetch(module, this.props.module);
-      if (reactRouterServerAsyncRenderer) {
-        reactRouterServerAsyncRenderer.finishLoadingModule(info, loadedModule);
-      }
-      this.setState({ module: loadedModule });
     } else {
-      if (reactRouterServerAsyncRenderer) reactRouterServerAsyncRenderer.startLoadingModule();
       load(module, this.props.module)(this.props.module())
         .then(({ info, module: loadedModule }) => {
           add(module, this.props.module, { info, loadedModule });
-          if (!isNode()) {
-            if (this._componentIsMounted) {
-              this.setState({ module: loadedModule });
-            }
-          } else if (reactRouterServerAsyncRenderer) {
-            reactRouterServerAsyncRenderer.finishLoadingModule(info, loadedModule);
+          if (this._componentIsMounted) {
+            this.setState({ module: loadedModule });
           }
         });
     }
