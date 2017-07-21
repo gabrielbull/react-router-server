@@ -21,7 +21,9 @@ class Module extends Component {
   componentWillMount() {
     const { reactRouterServerAsyncRenderer } = this.context;
     this._componentIsMounted = true;
+
     if (isNode()) {
+      // running on server
       if (exists(module, this.props.module)) {
         const { info, loadedModule } = fetch(module, this.props.module);
         if (reactRouterServerAsyncRenderer) reactRouterServerAsyncRenderer.finishLoadingModule(info, loadedModule);
@@ -35,13 +37,20 @@ class Module extends Component {
           });
       }
     } else {
-      load(module, this.props.module)(this.props.module())
-        .then(({ info, module: loadedModule }) => {
-          add(module, this.props.module, { info, loadedModule });
-          if (this._componentIsMounted) {
-            this.setState({ module: loadedModule });
-          }
-        });
+      // running on client
+      if (preloadExists(module, this.props.module)) {
+        if (this._componentIsMounted) {
+          this.setState({ module: preloadFetch(module, this.props.module) });
+        }
+      } else {
+        load(module, this.props.module)(this.props.module())
+          .then(({ info, module: loadedModule }) => {
+            add(module, this.props.module, { info, loadedModule });
+            if (this._componentIsMounted) {
+              this.setState({ module: loadedModule });
+            }
+          })
+      }
     }
   }
 
