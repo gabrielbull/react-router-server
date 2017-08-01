@@ -1,5 +1,9 @@
 # CHANGELOG
 
+# 4.2.2 (August 1st, 2017)
+
+- Fixed some issues with HMR
+
 # 4.2.1 (May 14th, 2017)
 
 - Added withDone decorator and Redux example
