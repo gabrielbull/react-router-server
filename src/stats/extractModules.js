@@ -1,15 +1,15 @@
 import validateStats from '../utils/validateStats';
 
-function parseWebpack(module) {
+function parseWebpack(module, publicPath) {
   return {
     id: module.id,
-    files: module.files
+    files: module.files.map(item => publicPath + item)
   };
 }
-function parseSystemImportTransformer(module) {
+function parseSystemImportTransformer(module, publicPath) {
   return {
     id: module.id,
-    files: [module.name]
+    files: [publicPath + module.name]
   };
 }
 
@@ -28,10 +28,10 @@ function findModule(module, chunks) {
 function extractModule(module, stats) {
   if (module.info.type === 'webpack') {
     const match = findModule(module, stats.chunks);
-    return match ? parseWebpack(match) : match;
+    return match ? parseWebpack(match, stats.publicPath || '') : match;
   } else if (module.info.type === 'systemImportTransformer') {
     const match = findModule(module, stats.chunks);
-    return match ? parseSystemImportTransformer(match) : match;
+    return match ? parseSystemImportTransformer(match, stats.publicPath || '') : match;
   }
 }
 
