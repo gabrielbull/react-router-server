@@ -11,6 +11,10 @@
   Server Side Rendering library for React Router v4.
 </p>
 
+## Help wanted!
+
+If anyone is interested in taking over this project please let me know.
+
 ## Table Of Content
 
 1. [About](#about)
