@@ -13,9 +13,6 @@
     "__DEV__": true,
     "__SERVER__": true
   },
-  "ecmaFeatures": {
-    "jsx": true
-  },
   "rules": {
     // Strict mode
     "strict": [2, "never"],
