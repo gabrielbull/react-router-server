@@ -7,6 +7,8 @@ export const isWebpack = loadFunc => {
     loadFunc.match(/\/\* System\.import \*\/\(([^\)]*)\)/) ||
     // webpack minimized
     loadFunc.match(/function[^}]*return[^}]*[a-zA-Z]\.[a-zA-Z]\([0-9]*\)\.then\([a-zA-Z]\.bind\(null, ?[0-9]*\)/) ||
+    // webpack minimized - arrow function
+    loadFunc.match(/\(\)=>[a-zA-Z]\.[a-zA-Z]\([0-9]*\)\.then\([a-zA-Z]\.bind\(null, ?[0-9]*\)/) ||
     // webpack normal
     loadFunc.match(/__webpack_require__/) ||
     // webpack normal
@@ -30,6 +32,11 @@ export const getWebpackId = loadFunc => {
   }
   // webpack normal
   matches = loadFunc.match(/function[^}]*return[^}]*\(([0-9]*)\).then/);
+  if (typeof matches === 'object' && matches !== null && typeof matches[1] !== 'undefined') {
+    return matches[1];
+  }
+  // webpack normal - arrow function
+  matches = loadFunc.match(/\(\)\s=>\s.*\(([0-9]*)\).then/);
   if (typeof matches === 'object' && matches !== null && typeof matches[1] !== 'undefined') {
     return matches[1];
   }
