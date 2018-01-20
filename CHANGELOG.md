@@ -1,5 +1,9 @@
 # CHANGELOG
 
+# 4.2.3 (January 20th, 2018)
+
+- Adds support for matching webpack imports using arrow functions
+
 # 4.2.2 (August 1st, 2017)
 
 - Fixed some issues with HMR
